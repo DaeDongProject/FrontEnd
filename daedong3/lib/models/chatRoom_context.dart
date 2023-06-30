@@ -5,5 +5,10 @@ class Context {
   bool modifyRequest;
   String modifyText;
 
-  Context({required this.question, required this.answer, required this.isDialogflow, required this.modifyRequest, required this.modifyText});
+  Context(
+      {required this.question,
+      required this.answer,
+      required this.isDialogflow,
+      required this.modifyRequest,
+      required this.modifyText});
 }

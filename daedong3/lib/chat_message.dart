@@ -23,15 +23,6 @@ class ChatMessage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.lightBlueAccent,
-                    child: Text("나"),
-                  ),
-                ],
-              ),
               SizedBox(
                 width:  16,
               ),
@@ -39,8 +30,16 @@ class ChatMessage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("ID or Name", style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text(txt),
+                      Text("나", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Container(
+                        child: Text(txt,style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),),
+                        padding: EdgeInsets.all(7.0),
+                        decoration: BoxDecoration(
+                          color: Colors.lightBlueAccent,
+                          borderRadius: BorderRadius.circular(20),
+                          border : Border.all(color: Colors.lightBlueAccent,)
+                        ),
+                      )
                     ],
                   )
               ),

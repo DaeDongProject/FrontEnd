@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
+import 'hamburger_menu.dart';
 import 'models/user.dart';
 
 
@@ -15,10 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
   final messageController = TextEditingController();
-  User user = new User(id: '00100',
-    name: '임창희',
-    phoneNumber: '010',
-    schoolEmail: 'ss', password: 'asd', schoolName: '앙', pushAlram: true, personalInformation: true, chatRoomOid: []);
+
     // 넘어 오는 데이터로 하기
 
   List<String> _chats = [];
@@ -33,6 +31,7 @@ class _HomePageState extends State<HomePage> {
             )),
             centerTitle: true,
             elevation: 0.0 ,
+
 
           ),
           body: Container(
@@ -113,49 +112,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountName: Text("${user.name}"),
-                  accountEmail: Text("${user.schoolName}"),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundImage: AssetImage('assets/'),
-                    backgroundColor: Colors.lightBlueAccent,
-                  ),
-
-
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings, color: Colors.grey[850],),
-                  title: Text("개인정보 수정"),
-                  onTap: () => {
-                    print("개인정보 수정 창 ")
-                  },
-                  trailing: Icon(Icons.arrow_right),
-                ),
-                ListTile(
-                  leading: Icon(Icons.add_box, color: Colors.grey[850],),
-                  title: Text("New Chat"),
-                  onTap: () => {
-                    print("채팅창 리프레쉬")
-                  },
-                  trailing: Icon(Icons.arrow_right),
-                ),
-
-                ListTile(
-                  leading: Icon(Icons.content_paste_go, color: Colors.grey[850],),
-                  title: Text("이전 대화 내용"),
-                  onTap: () => {
-                    print("팝업창을 이용하여 대화내역 불러오기")
-                  },
-                  trailing: Icon(Icons.arrow_right),
-                ),
-
-              ],
-            ),
-          ),
+          drawer: HamburgerMenu(),
         );
 
   }
