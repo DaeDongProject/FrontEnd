@@ -1,4 +1,4 @@
-class PersonalInformation{
+class PersonalInformation{ // 임시 작성 클래스
   late String name;
   late String university;
 
