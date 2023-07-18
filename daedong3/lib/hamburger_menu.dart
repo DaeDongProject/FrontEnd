@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class HamburgerMenu extends StatefulWidget {
   HamburgerMenu({Key? key}) : super(key: key);
 
+  // 개인 정보 데이터 Json 파일 작성 시 변경해야됨
   PersonalInformation information = PersonalInformation("김승민", "수원대학교");
 
   @override
@@ -36,7 +37,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           //StreamBuilder 확인
-          UserAccountsDrawerHeader(
+          UserAccountsDrawerHeader( // 개인 정보란
             decoration: BoxDecoration(color: Colors.lightBlueAccent),
             accountName: Text(widget.information.getName()),
             accountEmail: Text(widget.information.getUniversity()),
@@ -46,7 +47,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               //backgroundColor: Colors.blueAccent,
             ),
           ),
-          ListTile(
+          ListTile( // 개인 정보 수정 버튼
             leading: Icon(
               Icons.settings,
               color: Colors.grey[850],
@@ -66,7 +67,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             },
             trailing: Icon(Icons.arrow_right),
           ),
-          ListTile(
+          ListTile( // New Chat 버튼
             leading: Icon(
               Icons.add_box,
               color: Colors.grey[850],
@@ -82,7 +83,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             trailing: Icon(Icons.arrow_right),
           ),
 
-          ListTile(
+          ListTile( // 이전 대화 내용 버튼
             leading: Icon(
               Icons.content_paste_go,
               color: Colors.grey[850],
