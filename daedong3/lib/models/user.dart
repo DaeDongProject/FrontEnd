@@ -5,7 +5,7 @@ class User {
   String schoolEmail;
   String password;
   String schoolName;
-  bool pushAlram;
+  bool pushAlarm;
   bool personalInformation;
   List<String> chatRoomOid;
 
@@ -16,7 +16,7 @@ class User {
   required this.schoolEmail,
   required this.password,
   required this.schoolName,
-  required this.pushAlram,
+  required this.pushAlarm,
   required this.personalInformation,
   required this.chatRoomOid
   });
