@@ -22,4 +22,19 @@ class User {
   });
 
 
+
+  Map<String, dynamic> toJson(){
+    return{
+      'id': id,
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'schoolEmail': schoolEmail,
+      'password': password,
+      'schoolName': schoolName,
+      'pushAlarm': pushAlarm,
+      'personalInformation': personalInformation,
+      'chatRoomOid': chatRoomOid,
+    };
+  }
+
 }
