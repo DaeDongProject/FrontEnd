@@ -1,8 +1,10 @@
+import 'package:daedong3/models/context.dart';
+
 class ChatRoom {
   String id;
   String userId;
   String chatTitle;
-  List<Object> contextUser;
+  List<Context> contextUser;
   bool deleteYn;
 
   ChatRoom({
@@ -12,4 +14,14 @@ class ChatRoom {
     required this.contextUser,
     required this.deleteYn
   });
+
+  factory ChatRoom.fromJson(Map<String, dynamic> json){
+    return ChatRoom(
+      id: json["id"],
+      userId: json["userId"],
+      chatTitle: json["chatTitle"],
+      contextUser: json["contextUser"],
+      deleteYn: json["deleteYn"],
+    );
+  }
 }
