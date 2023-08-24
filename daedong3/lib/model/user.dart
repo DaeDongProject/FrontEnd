@@ -21,8 +21,6 @@ class User {
   required this.chatRoomOid
   });
 
-
-
   Map<String, dynamic> toJson(){
     return{
       'id': id,
@@ -35,6 +33,20 @@ class User {
       'personalInformation': personalInformation,
       'chatRoomOid': chatRoomOid,
     };
+  }
+
+  factory User.fromJson(Map<String, dynamic> json){
+    return User(
+      id: json["id"],
+      name: json["name"],
+      phoneNumber: json["phoneNumber"],
+      schoolEmail: json["schoolEmail"],
+      password: json["password"],
+      schoolName: json["schoolName"],
+      pushAlarm: json["pushAlarm"],
+      personalInformation: json["personalInformation"],
+      chatRoomOid: json["chatRoomOid"],
+    );
   }
 
 }

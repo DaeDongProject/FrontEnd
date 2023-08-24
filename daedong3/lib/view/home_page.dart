@@ -1,11 +1,11 @@
-import 'package:daedong3/ui/chat/chat_message.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
-import '../app/data/personal_information.dart';
+import '../personal_information.dart';
+import 'chat/chat_message.dart';
 import 'hamburger/hamburger_menu.dart';
-import '../app/data/model/user.dart';
 
 
 class HomePage extends StatefulWidget {

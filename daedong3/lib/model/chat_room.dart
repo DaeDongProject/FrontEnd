@@ -1,4 +1,6 @@
-import 'package:daedong3/app/data/model/context.dart';
+
+
+import 'package:daedong3/model/context.dart';
 
 class ChatRoom {
   String id;
@@ -23,5 +25,15 @@ class ChatRoom {
       contextUser: json["contextUser"],
       deleteYn: json["deleteYn"],
     );
+  }
+
+  Map<String, dynamic> toJson(){
+    return{
+      'id': id,
+      'userId': userId,
+      'chatTitle': chatTitle,
+      'contextUser': contextUser,
+      'deleteYn': deleteYn,
+    };
   }
 }

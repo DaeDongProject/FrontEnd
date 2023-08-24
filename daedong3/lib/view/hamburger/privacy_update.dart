@@ -1,6 +1,6 @@
-import 'package:daedong3/app/data/personal_information.dart';
+import 'package:daedong3/personal_information.dart';
 import 'package:flutter/material.dart';
-import '../../app/util/sp_helper.dart';
+import '../../config/sp_helper.dart';
 
 class PrivacyUpdate extends StatefulWidget {
   const PrivacyUpdate({Key? key, required PersonalInformation information}) : super(key: key);

@@ -1,9 +1,10 @@
-import 'package:daedong3/app/data/personal_information.dart';
-import 'package:daedong3/ui/home_page.dart';
-import 'package:daedong3/ui/hamburger/past_dialog.dart';
-import 'package:daedong3/ui/hamburger/privacy_update.dart';
+import 'package:daedong3/view/hamburger/past_dialog.dart';
+import 'package:daedong3/view/hamburger/privacy_update.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../../personal_information.dart';
+import '../home_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
   PersonalInformation information;
