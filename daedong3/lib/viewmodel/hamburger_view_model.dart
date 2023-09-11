@@ -9,6 +9,7 @@ class HamburgerViewModel with ChangeNotifier{
 
   Future<String> createChatRoom(User user){
     _repository = Repository();
+
     Future<String> newChatId = _repository.createChatRoom(user);
 
     return newChatId;

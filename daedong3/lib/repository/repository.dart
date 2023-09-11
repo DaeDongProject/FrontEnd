@@ -15,7 +15,7 @@ class Repository{
       if(response.statusCode == 200){
         return jsonDecode(response.body)
             .toString();
-      }else{
+      }else{ // 에러 처리 미흡. 예하 동일
         throw Exception('Request Error: ${response.statusCode}');
       }
     } catch(e){
