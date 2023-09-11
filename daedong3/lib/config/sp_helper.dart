@@ -1,4 +1,4 @@
-import 'package:daedong3/data/personal_information.dart';
+import 'package:daedong3/personal_information.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 

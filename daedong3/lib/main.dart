@@ -1,11 +1,14 @@
+import 'package:daedong3/view/home_page.dart';
+import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:daedong3/home_page.dart';
-import 'package:intl/intl.dart';
-import 'package:bubble/bubble.dart';
+import 'package:provider/provider.dart';
+import 'personal_information.dart';
 
 
 void main() {
-  runApp(MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_)=>HamburgerViewModel()),],
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,8 +20,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(backgroundColor: Colors.lightBlueAccent)
         ),
         debugShowCheckedModeBanner: false,
-      home: HomePage(),
-
+      home: HomePage(PersonalInformation('로그인 필요','')),
     );
 
   }
