@@ -1,4 +1,4 @@
-class User {
+class User { // 새 채팅 생성, 회원 탈퇴,
   String id;
   String name;
   String phoneNumber;
@@ -10,34 +10,34 @@ class User {
   List<String> chatRoomOid;
 
   User({
-  required this.id,
-  required this.name,
-  required this.phoneNumber,
-  required this.schoolEmail,
-  required this.password,
-  required this.schoolName,
-  required this.pushAlarm,
-  required this.personalInformation,
-  required this.chatRoomOid
+    required this.id,
+    required this.name,
+    required this.phoneNumber,
+    required this.schoolEmail,
+    required this.password,
+    required this.schoolName,
+    required this.pushAlarm,
+    required this.personalInformation,
+    required this.chatRoomOid
   });
 
   Map<String, dynamic> toJson(){
     return{
-      'id': id,
-      'name': name,
-      'phoneNumber': phoneNumber,
-      'schoolEmail': schoolEmail,
-      'password': password,
-      'schoolName': schoolName,
-      'pushAlarm': pushAlarm,
-      'personalInformation': personalInformation,
-      'chatRoomOid': chatRoomOid,
+      "_id": id,
+      "name": name,
+      "phoneNumber": phoneNumber,
+      "schoolEmail": schoolEmail,
+      "password": password,
+      "schoolName": schoolName,
+      "pushAlarm": pushAlarm,
+      "personalInformation": personalInformation,
+      "chatRoomOid": chatRoomOid
     };
   }
 
   factory User.fromJson(Map<String, dynamic> json){
     return User(
-      id: json["id"],
+      id: json["_id"],
       name: json["name"],
       phoneNumber: json["phoneNumber"],
       schoolEmail: json["schoolEmail"],
