@@ -1,4 +1,4 @@
-class SignUpRequest{ // 회원 가입
+class SignUp{ // 회원 가입
   String name;
   String phoneNumber;
   String schoolEmail;
@@ -6,7 +6,7 @@ class SignUpRequest{ // 회원 가입
   bool pushAlarm;
   bool personalInformation;
 
-  SignUpRequest({
+  SignUp({
     required this.name,
     required this.phoneNumber,
     required this.schoolEmail,
