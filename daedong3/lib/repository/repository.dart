@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:daedong3/model/info_modify_request.dart';
+import 'package:logger/logger.dart';
 import '../model/chat_room.dart';
 import '../model/login.dart';
 import '../model/past_chat.dart';
@@ -133,13 +135,19 @@ class Repository {
   }
 
   // 로그인
-  Future<User> login(Login login) async {
+  Future<bool> login(Login login) async {
     try {
       final response = await http.post(
           Uri.parse('http://13.209.50.197:8080/daedong/login'),
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(login.toJson()));
-      return User.fromJson(jsonDecode(response.body));
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          body: login.toJson());
+      // User result = User.fromJson(jsonDecode(response.body)); // json 방식이 아닌 x-www-form-urlencoded 방식으로 주고받기 때문에 디코딩 필요없음
+      Logger().d(response.statusCode);
+      if(response.statusCode == 200){
+        return true;
+      }else{
+        return false;
+      }
     } catch (e) {
       throw Exception('Error: $e');
     }
