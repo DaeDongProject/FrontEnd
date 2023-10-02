@@ -1,4 +1,4 @@
-class User { // 새 채팅 생성, 회원 탈퇴,
+class UserUpdate { // 회원 정보 수정, User와는 chatRoomOid 차이
   String id;
   String name;
   String phoneNumber;
@@ -7,9 +7,8 @@ class User { // 새 채팅 생성, 회원 탈퇴,
   String schoolName;
   bool pushAlarm;
   bool personalInformation;
-  List<String> chatRoomOid;
 
-  User({
+  UserUpdate({
     required this.id,
     required this.name,
     required this.phoneNumber,
@@ -18,7 +17,6 @@ class User { // 새 채팅 생성, 회원 탈퇴,
     required this.schoolName,
     required this.pushAlarm,
     required this.personalInformation,
-    required this.chatRoomOid
   });
 
   Map<String, dynamic> toJson(){
@@ -31,22 +29,9 @@ class User { // 새 채팅 생성, 회원 탈퇴,
       "schoolName": schoolName,
       "pushAlarm": pushAlarm,
       "personalInformation": personalInformation,
-      "chatRoomOid": chatRoomOid
     };
   }
 
-  factory User.fromJson(Map<String, dynamic> json){
-    return User(
-      id: json["_id"],
-      name: json["name"],
-      phoneNumber: json["phoneNumber"],
-      schoolEmail: json["schoolEmail"],
-      password: json["password"],
-      schoolName: json["schoolName"],
-      pushAlarm: json["pushAlarm"],
-      personalInformation: json["personalInformation"],
-      chatRoomOid: json["chatRoomOid"],
-    );
-  }
+
 
 }

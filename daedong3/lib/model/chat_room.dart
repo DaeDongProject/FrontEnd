@@ -1,8 +1,6 @@
-
-
 import 'package:daedong3/model/context.dart';
 
-class ChatRoom {
+class ChatRoom { // 로그인한 사용자의 가장 최근 채팅방, 사용자가 선택한 채팅방, 채팅방 제목 수정, 채팅방 삭제,
   String id;
   String userId;
   String chatTitle;
@@ -19,7 +17,7 @@ class ChatRoom {
 
   factory ChatRoom.fromJson(Map<String, dynamic> json){
     return ChatRoom(
-      id: json["id"],
+      id: json["_id"],
       userId: json["userId"],
       chatTitle: json["chatTitle"],
       contextUser: json["contextUser"],
@@ -29,11 +27,11 @@ class ChatRoom {
 
   Map<String, dynamic> toJson(){
     return{
-      'id': id,
-      'userId': userId,
-      'chatTitle': chatTitle,
-      'contextUser': contextUser,
-      'deleteYn': deleteYn,
+      "_id": id,
+      "userId": userId,
+      "chatTitle": chatTitle,
+      "contextUser": contextUser,
+      "deleteYn": deleteYn
     };
   }
 }
