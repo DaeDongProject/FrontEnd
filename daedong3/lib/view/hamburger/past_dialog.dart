@@ -10,8 +10,7 @@ class PastDialog extends StatefulWidget {
 class _PastDialogState extends State<PastDialog> {
   int selectedValue = 0;
 
-  List<String> datas = ['data 1', 'data 2', 'data 3', 'data 4', 'data 5', 'data 6',
-  'data 7', 'data 8', 'data 9', 'data 10']; // 유저 데이터의 이전 대화 내용 가져와야 함
+  List<String> datas = ['data 1', 'data 2', 'data 3'];
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +44,8 @@ class _PastDialogState extends State<PastDialog> {
           },
         ),
         ElevatedButton(
-            onPressed: () => {
-              // 채팅 데이터 가지고 이동
-            },
-            child: Text("확인")
-        )
+            onPressed: () => print("페이지 이동"),
+            child: Text("확인"))
       ],
     );
   }

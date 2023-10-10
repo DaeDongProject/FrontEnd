@@ -1,4 +1,4 @@
-class Question { // 사용자 질문
+class Question {
   String id;
   String question;
 
@@ -16,8 +16,8 @@ class Question { // 사용자 질문
 
   Map<String, dynamic> toJson(){
     return {
-      "id" : id,
-      "question" : question
+      'id' : id,
+      'question' : question,
     };
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../model/chat_room.dart';
+import '../model/chatRoom.dart';
 import '../model/user.dart';
 import '../repository/repository.dart';
 
@@ -15,11 +15,11 @@ class HamburgerViewModel with ChangeNotifier{
     return newChatId;
   }
 
-  Future<dynamic> pastChatList(ChatRoom chatRoom){
+ /* Future<dynamic> pastChatList(ChatRoom chatRoom){
     _repository = Repository();
 
     response = _repository.pastChatList(chatRoom.userId);
 
 
-  }
+  }*/
 }
