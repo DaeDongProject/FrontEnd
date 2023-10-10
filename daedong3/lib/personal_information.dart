@@ -1,4 +1,4 @@
-class PersonalInformation{ // 임시 작성 클래스 (코드 수정 후 지울 클래스)
+class PersonalInformation{
   late String name;
   late String university;
 

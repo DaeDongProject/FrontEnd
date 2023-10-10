@@ -1,14 +1,15 @@
+import 'package:daedong3/personal_information.dart';
+import 'package:daedong3/view/home_page.dart';
 import 'package:daedong3/view/hamburger/past_dialog.dart';
 import 'package:daedong3/view/hamburger/privacy_update.dart';
 import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 
-import '../../personal_information.dart';
-import '../home_page.dart';
-
 class HamburgerMenu extends StatefulWidget {
-  PersonalInformation information;
-  HamburgerMenu(this.information, {Key? key}) : super(key: key);
+  HamburgerMenu({Key? key}) : super(key: key);
+
+  PersonalInformation information = PersonalInformation("김승민", "수원대학교");
 
   @override
   State<HamburgerMenu> createState() => _HamburgerMenuState();
@@ -37,7 +38,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           //StreamBuilder 확인
-          UserAccountsDrawerHeader( // 개인 정보란
+          UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.lightBlueAccent),
             accountName: Text(widget.information.getName()),
             accountEmail: Text(widget.information.getUniversity()),
@@ -47,7 +48,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               //backgroundColor: Colors.blueAccent,
             ),
           ),
-          ListTile( // 개인 정보 수정 버튼
+          ListTile(
             leading: Icon(
               Icons.settings,
               color: Colors.grey[850],
@@ -67,28 +68,23 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             },
             trailing: Icon(Icons.arrow_right),
           ),
-          ListTile( // New Chat 버튼
+          ListTile(
             leading: Icon(
               Icons.add_box,
               color: Colors.grey[850],
             ),
             title: Text("New Chat"),
             onTap: () => {
-              // 채팅 내역 데이터 보내기
-
-              // circularProgressIndicator
-
-              // 새로운 화면 띄우기
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (BuildContext context) =>
-                      HomePage(widget.information)),
-                )
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (BuildContext context) =>
+                    HomePage(widget.information)),
+              )
             },
             trailing: Icon(Icons.arrow_right),
           ),
 
-          ListTile( // 이전 대화 내용 버튼
+          ListTile(
             leading: Icon(
               Icons.content_paste_go,
               color: Colors.grey[850],
@@ -98,8 +94,21 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               Navigator.push(context,
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          PastDialog() // 매개변수로 유저 데이터 넘기기
+                          PastDialog()
                   ));
+
+
+            },
+            trailing: Icon(Icons.arrow_right),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.exit_to_app,
+              color: Colors.grey[850],
+            ),
+            title: Text("로그아웃"),
+            onTap: () {
+              //mongodb logout 기능
 
 
             },
