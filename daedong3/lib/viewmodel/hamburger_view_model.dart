@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../model/chatRoom.dart';
+import '../model/chat_room.dart';
 import '../model/user.dart';
 import '../repository/repository.dart';
 
