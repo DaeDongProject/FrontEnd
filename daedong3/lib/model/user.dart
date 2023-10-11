@@ -1,4 +1,4 @@
-class User { // 새 채팅 생성, 회원 탈퇴,
+class User {
   String id;
   String name;
   String phoneNumber;
@@ -23,21 +23,21 @@ class User { // 새 채팅 생성, 회원 탈퇴,
 
   Map<String, dynamic> toJson(){
     return{
-      "_id": id,
-      "name": name,
-      "phoneNumber": phoneNumber,
-      "schoolEmail": schoolEmail,
-      "password": password,
-      "schoolName": schoolName,
-      "pushAlarm": pushAlarm,
-      "personalInformation": personalInformation,
-      "chatRoomOid": chatRoomOid
+      'id': id,
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'schoolEmail': schoolEmail,
+      'password': password,
+      'schoolName': schoolName,
+      'pushAlarm': pushAlarm,
+      'personalInformation': personalInformation,
+      'chatRoomOid': chatRoomOid,
     };
   }
 
   factory User.fromJson(Map<String, dynamic> json){
     return User(
-      id: json["_id"],
+      id: json["id"],
       name: json["name"],
       phoneNumber: json["phoneNumber"],
       schoolEmail: json["schoolEmail"],
