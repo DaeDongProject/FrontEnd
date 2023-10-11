@@ -1,16 +1,18 @@
-import 'package:daedong3/view/chat/chat_message.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
-import 'hamburger/hamburger_menu.dart';
 import '../personal_information.dart';
+import 'chat/chat_message.dart';
+import 'hamburger/hamburger_menu.dart';
 
 
 class HomePage extends StatefulWidget {
-
   PersonalInformation information;
   HomePage(this.information, {Key? key}) : super(key: key);
+
+  // 개인 정보 데이터 Json 파일 작성 시 변경해야됨
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,14 +22,14 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
   final messageController = TextEditingController();
 
-    // 넘어 오는 데이터로 하기
-
   @override
-  void initState(){
-    //TODO: implement initState
+  void initState() {
+    // TODO: implement initState
     super.initState();
+
   }
 
+    // 넘어 오는 데이터로 하기
   List<String> _chats = [];
   List<String> _daedongchats = [];
 
@@ -35,7 +37,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.lightBlueAccent,
             title: Text("대동이",style: TextStyle(
                 fontSize: 20
             )),
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          drawer: HamburgerMenu(),
+          drawer: HamburgerMenu(widget.information),
         );
 
   }

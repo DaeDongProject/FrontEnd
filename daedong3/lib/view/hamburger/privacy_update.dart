@@ -1,12 +1,9 @@
 import 'package:daedong3/personal_information.dart';
 import 'package:flutter/material.dart';
 import '../../config/sp_helper.dart';
-import 'package:daedong3/personal_information.dart';
-import 'package:flutter/material.dart';
 
 class PrivacyUpdate extends StatefulWidget {
   const PrivacyUpdate({Key? key, required PersonalInformation information}) : super(key: key);
-
 
   @override
   State<PrivacyUpdate> createState() => _PrivacyUpdate();
@@ -15,8 +12,8 @@ class PrivacyUpdate extends StatefulWidget {
 class _PrivacyUpdate extends State<PrivacyUpdate> {
 
   final TextEditingController txtName = TextEditingController();
-  //대학교 명은 '수원대학교'로 초기값 놓고 고정시킴
-  final TextEditingController txtUniversity = TextEditingController();
+  // 대학교 명은 '수원대학교'로 초기값 놓고 고정시킴
+  final TextEditingController txtUniversity = TextEditingController(text: "수원대학교"); // 초기값 설정
   final SPHelper helper = SPHelper();
 
   String textName='';
@@ -35,7 +32,6 @@ class _PrivacyUpdate extends State<PrivacyUpdate> {
     txtName.text = '';
     txtUniversity.text = '';
     Navigator.pop(context, newPersonalInformation);
-
   }
 
   @override
@@ -61,8 +57,8 @@ class _PrivacyUpdate extends State<PrivacyUpdate> {
                   });
                 },
                 controller: txtUniversity,
-                readOnly: true,
-                decoration: InputDecoration(labelText: "소속 학교"),
+                readOnly: true, // 변경 불가 프로퍼티
+                decoration: InputDecoration(labelText: "소속 학교"), //학교 입력 시 코드
               )
             ],
           )
@@ -77,12 +73,12 @@ class _PrivacyUpdate extends State<PrivacyUpdate> {
         SizedBox(height: 16,),
         ElevatedButton(
           onPressed: (){
-            textName.isNotEmpty?// && textUniversity.isNotEmpty ? 대학변경시 코드변경
+            textName.isNotEmpty? // && textUniversity.isNotEmpty -> 대학 변경 가능 시 바꿀 코드
             updatePersonalInformation()
                 : null;
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: (textName.isNotEmpty && textUniversity.isNotEmpty) ? Colors.blue : Colors.grey,
+            backgroundColor: (textName.isNotEmpty) ? Colors.blue : Colors.grey,
           ),
           child: Text("Save"),
         ),
