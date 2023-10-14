@@ -85,8 +85,7 @@ class Repository {
     try {
       final response = await http
           .get(Uri.parse('http://13.209.50.197:8080/daedong/pastList/$userId'));
-      List<dynamic> body =
-      jsonDecode(response.body); // response 값 body에 디코딩해서 담기
+      dynamic body = jsonDecode(response.body); // response 값 body에 디코딩해서 담기
       List<PastChat> chatList = body
           .map((dynamic item) => PastChat.fromJson(item))
           .toList(); // PastChat 객체로 변환해서 리스트 형태로 리턴
@@ -134,18 +133,15 @@ class Repository {
   }
 
   // 로그인
-  Future<bool> login(Login login) async {
+  Future<User> login(Login login) async {
     try {
       final response = await http.post(
           Uri.parse('http://13.209.50.197:8080/daedong/login'),
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
           body: login.toJson());
       // User result = User.fromJson(jsonDecode(response.body)); // json 방식이 아닌 x-www-form-urlencoded 방식으로 주고받기 때문에 디코딩 필요없음
-      Logger().d(response.statusCode);
       if(response.statusCode == 200){
-        return true;
-      }else{
-        return false;
+        return result; // User 객체 리턴, 아직 form-urlencoded 처리 못함
       }
     } catch (e) {
       throw Exception('Error: $e');
