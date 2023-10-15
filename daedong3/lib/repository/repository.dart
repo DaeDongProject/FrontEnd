@@ -139,10 +139,9 @@ class Repository {
           Uri.parse('http://13.209.50.197:8080/daedong/login'),
           headers: {"Content-Type": "application/x-www-form-urlencoded"},
           body: login.toJson());
-      // User result = User.fromJson(jsonDecode(response.body)); // json 방식이 아닌 x-www-form-urlencoded 방식으로 주고받기 때문에 디코딩 필요없음
-      if(response.statusCode == 200){
-        return result; // User 객체 리턴, 아직 form-urlencoded 처리 못함
-      }
+      User result = User.fromJson(jsonDecode(response.body)); // json 방식이 아닌 x-www-form-urlencoded 방식으로 주고받기 때문에 디코딩 필요없음
+      return result; // User 객체 리턴, 아직 form-urlencoded 처리 못함
+
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -215,6 +214,22 @@ class Repository {
         return false;
       }
     } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  // schoolEmail 중복 체크(ID 중복체크)
+  Future<bool> checkDuplicatedEmail(String schoolEmail) async {
+    try{
+      final response = await http.get(
+        Uri.parse('http://13.209.50.197:8080/daedong/repeatCheck?schoolEmail=$schoolEmail')
+      );
+      if(response.statusCode == 200){
+        return true; // 중복이 아니라면 true 리턴
+      }else{
+        return false; // 이메일이 중복된다면 false 리턴
+      }
+    }catch (e){
       throw Exception('Error: $e');
     }
   }
