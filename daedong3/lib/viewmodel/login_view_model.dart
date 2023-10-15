@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../model/login.dart';
+import '../model/sign_up.dart';
 import '../model/user.dart';
 import '../repository/repository.dart';
 
@@ -58,5 +59,38 @@ class LoginViewModel with ChangeNotifier{
     user = await _repository.login(loginQuery);
 
     notifyListeners();
+  }
+
+  bool emailChecking = false; // 중복된 이메일인지 확인하는 변수
+  // 회원가입 시 이메일 중복 확인 함수
+  Future checkDuplicatedEmail(String email) async {
+    emailChecking = await _repository.checkDuplicatedEmail(email); // 중복이라면 false, 아니라면 true 할당
+
+    notifyListeners();
+  }
+
+  // 회원가입 함수
+  Future<bool> signup(
+      String name,
+      String phoneNumber,
+      String schoolEmail,
+      String schoolName,
+      String password,
+      bool pushAlarm,
+      bool personalInformation) async {
+
+    SignUp signupInfo = SignUp( // 매개변수로 받은 정보를 SignUp 객체로 변환
+      name: name,
+      phoneNumber: phoneNumber,
+      schoolEmail: schoolEmail,
+      schoolName: schoolName,
+      password: password,
+      pushAlarm: pushAlarm,
+      personalInformation: personalInformation
+      );
+
+    bool response = await _repository.signup(signupInfo);
+
+    return response; // 회원가입에 성공했다면 true 반환
   }
 }
