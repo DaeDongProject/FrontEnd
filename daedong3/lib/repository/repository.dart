@@ -32,7 +32,7 @@ class Repository {
       final response = await http.get(
         Uri.parse('http://13.209.50.197:8080/daedong/$userId'),
       );
-      return ChatRoom.fromJson(jsonDecode(response.body));
+      return ChatRoom.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -84,12 +84,14 @@ class Repository {
   Future<List<PastChat>> pastChatList(String userId) async {
     try {
       final response = await http
-          .get(Uri.parse('http://13.209.50.197:8080/daedong/pastList/$userId'));
-      dynamic body = jsonDecode(response.body); // response 값 body에 디코딩해서 담기
-      List<PastChat> chatList = body
-          .map((dynamic item) => PastChat.fromJson(item))
-          .toList(); // PastChat 객체로 변환해서 리스트 형태로 리턴
-      return chatList;
+          .get(Uri.parse('http://13.209.50.197:8080/daedong/menu/pastList/$userId'));
+      print(response.body);
+      dynamic chatList = jsonDecode(utf8.decode(response.bodyBytes)); // response 값 body에 디코딩해서 담기
+      // List<PastChat> chatList = body
+      //     .map((dynamic item) => PastChat.fromJson(item))
+      //     .toList(); // PastChat 객체로 변환해서 리스트 형태로 리턴
+
+      return (chatList as List).map((e) => PastChat.fromJson(e)).toList();
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -139,7 +141,6 @@ class Repository {
           Uri.parse('http://13.209.50.197:8080/daedong/login'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(login.toJson()));
-      print("돌아옴");
       User result = User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
       return result;
 

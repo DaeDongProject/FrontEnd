@@ -4,8 +4,9 @@ class ChatRoom { // 로그인한 사용자의 가장 최근 채팅방, 사용자
   String id;
   String userId;
   String chatTitle;
-  List<Context> contextUser;
+  List<dynamic> contextUser; // List<Context> 인데 에러로 인해 바꿔둠.
   bool deleteYn;
+
 
   ChatRoom({
     required this.id,
