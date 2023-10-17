@@ -7,7 +7,7 @@ class User { // 새 채팅 생성, 회원 탈퇴
   String schoolName;
   bool pushAlarm;
   bool personalInformation;
-  List<String> chatRoomOid;
+  List<dynamic> chatRoomOid;
 
   User({
     required this.id,

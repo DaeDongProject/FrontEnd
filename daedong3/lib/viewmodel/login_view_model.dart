@@ -6,44 +6,42 @@ import '../model/user.dart';
 import '../repository/repository.dart';
 
 class LoginViewModel with ChangeNotifier{
-  late final Repository _repository;
+  late final Repository _repository = Repository();
 
   bool emailValidator = false; // 로그인 아이디 유효 확인 변수
   bool passwordValidator = false; // 로그인 비밀번호 유효 확인 변수
 
   bool loginValidator = false; // 위 두 개를 검사해서 이 변수로 로그인 버튼 활성화.
 
-  late User user;
+  late User user = User(id: "notyetinitial", name: "초기화", phoneNumber: "", schoolEmail: "없음", password: "", schoolName: "", pushAlarm: false, personalInformation: false, chatRoomOid: []); // 객체 초기화
 
   // 이메일의 형식이 유효한지 검사하는 함수
-  isEmailValid(String email){
+  bool isEmailValid(String email){
 
     RegExp emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$'); // 이메일 유효성을 검사하는 정규 표현식
 
     // 정규 표현식과 User가 타이핑한 email이 부합하다면 true 값 할당
     if(emailRegExp.hasMatch(email)){
-      emailValidator = true;
+      return true;
     }else{
-      emailValidator = false;
+      return false;
     }
-
-    isLoginValid();
   }
 
   // 비밀번호의 형식이 유효한지 검사하는 함수
-  isPasswordValid(String password){
+  bool isPasswordValid(String password){
 
     // User가 타이핑한 비밀번호가 4자리 이상이라면 true 값 할당
     if(password.length >= 4){
-      passwordValidator = true;
+      return true;
+    }else{
+      return false;
     }
-
-    isLoginValid();
   }
 
   // 이메일과 비밀번호가 모두 유효한지 검사하는 함수(로그인 버튼 활성화 목적)
-  isLoginValid(){
-    if(emailValidator && passwordValidator == true){
+  isLoginValid(String email, String password){
+    if((isEmailValid(email) && isPasswordValid(password)) == true){
       loginValidator = true;
     }else{
       loginValidator = false;
@@ -53,10 +51,10 @@ class LoginViewModel with ChangeNotifier{
   }
 
   // 입력된 정보로 로그인하는 함수
-  Future login(String email, String password) async {
+  Future loginFunc(String email, String password) async {
     Login loginQuery = Login(schoolEmail: email, password: password);
 
-    user = await _repository.login(loginQuery);
+    user = await _repository.loginRepo(loginQuery);
 
     notifyListeners();
   }

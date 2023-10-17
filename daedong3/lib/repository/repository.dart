@@ -43,7 +43,7 @@ class Repository {
     try {
       final response = await http.get(
           Uri.parse('http://13.209.50.197:8080/daedong/chatroom/$chatRoomId'));
-      return ChatRoom.fromJson(jsonDecode(response.body));
+      return  ChatRoom.fromJson(jsonDecode(response.body));
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -133,14 +133,15 @@ class Repository {
   }
 
   // 로그인
-  Future<User> login(Login login) async {
+  Future<User> loginRepo(Login login) async {
     try {
       final response = await http.post(
           Uri.parse('http://13.209.50.197:8080/daedong/login'),
-          headers: {"Content-Type": "application/x-www-form-urlencoded"},
-          body: login.toJson());
-      User result = User.fromJson(jsonDecode(response.body)); // json 방식이 아닌 x-www-form-urlencoded 방식으로 주고받기 때문에 디코딩 필요없음
-      return result; // User 객체 리턴, 아직 form-urlencoded 처리 못함
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(login.toJson()));
+      print("돌아옴");
+      User result = User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      return result;
 
     } catch (e) {
       throw Exception('Error: $e');

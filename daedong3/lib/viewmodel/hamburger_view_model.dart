@@ -35,5 +35,7 @@ class HamburgerViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-
+  Future logout() async {
+    await _repository.logout();
+  }
 }
