@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94dc6d11-9b65-4c14-926e-25d49794104b" name="Changes" comment="1018(일단 지금까지)">
+    <list default="true" id="94dc6d11-9b65-4c14-926e-25d49794104b" name="Changes" comment="1018(past 끄적 - 검토 필수)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/chat/chat_message_deadong.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/chat/chat_message_deadong.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/hamburger/hamburger_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/hamburger/hamburger_menu.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/daedong3/lib/view/hamburger/past_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/hamburger/past_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/viewmodel/chat_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/viewmodel/chat_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/daedong3/lib/viewmodel/hamburger_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/viewmodel/hamburger_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/viewmodel/login_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/viewmodel/login_view_model.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +53,12 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;module&quot;,
+      &quot;directory&quot;
+    ]
   }
 }</component>
   <component name="RunManager">
@@ -76,7 +88,21 @@
       <option name="project" value="LOCAL" />
       <updated>1697556492007</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="1018(past 끄적 - 검토 필수)">
+      <created>1697576277468</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697576277468</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1018(past 끄적 - 검토 필수)">
+      <created>1697576902540</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697576902540</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -90,7 +116,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="origin/seungmin" />
                       </list>
                     </value>
                   </entry>
@@ -104,6 +130,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1018(일단 지금까지)" />
-    <option name="LAST_COMMIT_MESSAGE" value="1018(일단 지금까지)" />
+    <MESSAGE value="1018(past 끄적 - 검토 필수)" />
+    <option name="LAST_COMMIT_MESSAGE" value="1018(past 끄적 - 검토 필수)" />
   </component>
 </project>
