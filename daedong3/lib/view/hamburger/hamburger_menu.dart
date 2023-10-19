@@ -3,11 +3,16 @@ import 'package:daedong3/view/home_page.dart';
 import 'package:daedong3/view/hamburger/past_dialog.dart';
 import 'package:daedong3/view/hamburger/privacy_update.dart';
 import 'package:flutter/material.dart';
+import 'package:daedong3/viewmodel/chat_view_model.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../login.dart';
+
 class HamburgerMenu extends StatefulWidget {
-  HamburgerMenu({Key? key}) : super(key: key);
+  final String chatRoomId;
+  HamburgerMenu({required this.chatRoomId,Key? key}) : super(key: key);
+
 
   PersonalInformation information = PersonalInformation("김승민", "수원대학교");
 
@@ -16,11 +21,14 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
+  final ChatViewModel _chatViewModel = ChatViewModel();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // ChatViewModel에서 채팅방 정보를 요청
+    _chatViewModel.requestChatRoomInfo(chatRoomId: widget.chatRoomId);
 
   }
 
@@ -78,7 +86,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (BuildContext context) =>
-                    HomePage(widget.information)),
+                    HomePage(widget.chatRoomId, PersonalInformation('로그인 필요','a'))),
               )
             },
             trailing: Icon(Icons.arrow_right),
@@ -109,6 +117,9 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             title: Text("로그아웃"),
             onTap: () {
               //mongodb logout 기능
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_)=>
+                  LoginScreen()));
 
 
             },

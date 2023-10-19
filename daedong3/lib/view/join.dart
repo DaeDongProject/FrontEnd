@@ -1,14 +1,9 @@
-import 'package:daedong3/main.dart';
-import 'package:daedong3/view/join.dart';
-import '../../personal_information.dart';
-import 'package:daedong3/view/home_page.dart';
+//회원가입
+import '../personal_information.dart';
 import 'package:flutter/material.dart';
-import 'package:daedong3/viewmodel/chat_view_model.dart';
+import 'package:daedong3/view/login.dart';
 
-
-class Login extends StatelessWidget {
-
-
+class  Join extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -18,28 +13,24 @@ class Login extends StatelessWidget {
         textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(primary: Colors.black)
         ),
-        // elevatedButtonTheme: ElevatedButtonThemeData(
-        //   style: ElevatedButton.styleFrom(primary: Colors.black)
-        // )
+
       ),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: JoinScreen(),
     );
   }
 }
-
-class LoginScreen extends StatefulWidget {
+class JoinScreen extends StatefulWidget {
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<JoinScreen> createState() => _JoinScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-
+class _JoinScreenState extends State<JoinScreen> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final password_check_Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,23 +92,42 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(height: 12.0,),
 
+            TextField(
+              controller: password_check_Controller,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                labelText: 'password',
+                hintText: '비밀번호를 한번더 입력하세요',
+                hintStyle: TextStyle(color: Colors.black26),
+                labelStyle: TextStyle(color: Colors.black26),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(width: 1, color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(width: 1, color: Colors.white),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+              ),
+              obscureText: true,
+            ),
+
+            SizedBox(height: 12.0,),
+
             ButtonBar(
               children: <Widget>[
-                TextButton(
-                  onPressed: (){
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_)=>
-                        JoinScreen()));
-                  },
-                  child: Text('회원가입'),
-                ),
+
                 ElevatedButton(
                   onPressed: (){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (_)=>
-                        HomePage("",PersonalInformation('로그인 필요',''))));
-                  },//매개변수를 설정해서 홈페이지에 보내야함 // ChatRoomId 상의하기
-                  child: Text('로그인'),
+                        LoginScreen()));
+                  },//매개변수를 설정해서 홈페이지에 보내야함
+                  child: Text('회원가입'),
                 ),
               ],
             )
@@ -126,10 +136,5 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 }
+

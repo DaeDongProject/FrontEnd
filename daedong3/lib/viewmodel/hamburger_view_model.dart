@@ -1,11 +1,17 @@
+import 'package:daedong3/model/past_chat.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../model/chatRoom.dart';
 import '../model/user.dart';
+import '../model/past_chat.dart';
 import '../repository/repository.dart';
 
 class HamburgerViewModel with ChangeNotifier{
   late final Repository _repository;
+
+  // HamburgerViewModel(){
+  //   _repository = Repository();
+  // }
 
   Future<String> createChatRoom(User user){
     _repository = Repository();
@@ -15,11 +21,16 @@ class HamburgerViewModel with ChangeNotifier{
     return newChatId;
   }
 
- /* Future<dynamic> pastChatList(ChatRoom chatRoom){
+  Future<List<PastChat>> pastChatList(PastChat pastChat) async {
     _repository = Repository();
 
-    response = _repository.pastChatList(chatRoom.userId);
+    try{
+      List<PastChat> chatList = await _repository.pastChatList(pastChat.toString());
+      return chatList;
+    }catch(e){
+      throw Exception('Error: $e');
+    }
 
 
-  }*/
+  }
 }
