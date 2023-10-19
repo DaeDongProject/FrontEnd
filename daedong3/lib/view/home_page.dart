@@ -1,38 +1,21 @@
 import 'package:daedong3/view/chat/chat_message.dart';
+import 'package:daedong3/view/chat/chat_message_deadong.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-
+import 'package:provider/provider.dart';
+import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
-import '../personal_information.dart';
 
 
-class HomePage extends StatefulWidget {
-
-  PersonalInformation information;
-  HomePage(this.information, {Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class HomePage extends StatelessWidget{
   GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
   final messageController = TextEditingController();
 
-    // 넘어 오는 데이터로 하기
-
-  @override
-  void initState(){
-    //TODO: implement initState
-    super.initState();
-  }
-
-  List<String> _chats = [];
-  List<String> _daedongchats = [];
-
   @override
   Widget build(BuildContext context) {
+    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+
     return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.lightBlueAccent,
@@ -42,83 +25,87 @@ class _HomePageState extends State<HomePage> {
             centerTitle: true,
             elevation: 0.0 ,
 
-
           ),
-          body: Container(
-            child: Column(
+          body: WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: Center(
+              child: Column(
 
-              children: [
-                Text("Today, ${DateFormat("Hm").format(DateTime.now())}",style: TextStyle(
-                    fontSize: 15
-                ),
-                ),
-
-                Center(
-                  child: Container(
-                    padding:  EdgeInsets.only(top: 15,bottom: 10),
-
+                children: [
+                  Text("Today, ${DateFormat("Hm").format(DateTime.now())}",style: TextStyle(
+                      fontSize: 15
                   ),
-                ),
-
-                Expanded(
-                  child: AnimatedList(
-                    key: _animListKey,
-                    reverse: true,
-                    itemBuilder: _buildItem,
                   ),
-                ),
 
+                  Center(
+                    child: Container(
+                      padding:  EdgeInsets.only(top: 15,bottom: 10),
 
-                Divider(
-                  height: 5,
-                  color: Colors.lightBlueAccent,
-                ),
-                Container(
-                  child: ListTile(
-                    title: Container(
-                      height: 35, decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        color : Color.fromRGBO(220, 220, 220, 1)
                     ),
-                      padding: EdgeInsets.only(left : 15),
-                      child: TextFormField(
-                        controller: messageController,
-                        decoration: InputDecoration(
-                          hintText: "메세지를 입력하세요",
-                          hintStyle: TextStyle(
-                              color: Colors.black26
+                  ),
+
+                  Expanded(
+                    child: AnimatedList(
+                      key: _animListKey,
+                      reverse: true,
+                      itemBuilder: _buildItem,
+                    ),
+                  ),
+
+
+                  Divider(
+                    height: 5,
+                    color: Colors.lightBlueAccent,
+                  ),
+                  Container(
+                    child: ListTile(
+                      title: Container(
+                        height: 35, decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          color : Color.fromRGBO(220, 220, 220, 1)
+                      ),
+                        padding: EdgeInsets.only(left : 15),
+                        child: TextFormField(
+                          controller: messageController,
+                          decoration: InputDecoration(
+                            hintText: "메세지를 입력하세요",
+                            hintStyle: TextStyle(
+                                color: Colors.black26
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
                           ),
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                        ),
-                        //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
-                        style: TextStyle(
-                            fontSize: 16,
-                            color : Colors.black
-                        ),
+                          //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
+                          style: TextStyle(
+                              fontSize: 16,
+                              color : Colors.black
+                          ),
 
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.send, size: 30, color: Colors.lightBlueAccent,
+                        ),
+                        onPressed: (){
+                          if(messageController.text.isEmpty){
+                            print("메세지를 입력하세요.");
+                          }
+                          else{
+                            _handleSunbmitted(messageController.text, context);
+
+                          }
+                        },
                       ),
                     ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.send, size: 30, color: Colors.lightBlueAccent,
-                      ),
-                      onPressed: (){
-                        if(messageController.text.isEmpty){
-                          print("메세지를 입력하세요.");
-                        }
-                        else{
-                          _handleSunbmitted(messageController.text);
+                  )
 
-                        }
-                      },
-                    ),
-                  ),
-                )
-
-              ],
+                ],
+              ),
             ),
           ),
 
@@ -127,14 +114,20 @@ class _HomePageState extends State<HomePage> {
 
   }
   Widget _buildItem(context, index, animation){
-    return ChatMessage(_chats[index], animation:animation);
+    // return ChatMessage(_chats[index], animation:animation);
+
+    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+
+    return ChatMessage(chatViewModel.selectedChatRoom.contextUser[index].question, animation: animation,);
   }
 
-  void _handleSunbmitted(String text){
+  void _handleSunbmitted(String text, BuildContext context){
     Logger().d(text);
+    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
     messageController.clear();
-    _chats.insert(0,text);
+    // _chats.insert(0,text);
+    chatViewModel.selectedChatRoom;
     _animListKey.currentState?.insertItem(0);
   }
 }

@@ -1,5 +1,7 @@
 import 'package:daedong3/view/login.dart';
+import 'package:daedong3/viewmodel/chat_view_model.dart';
 import 'package:daedong3/viewmodel/hamburger_view_model.dart';
+import 'package:daedong3/viewmodel/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:daedong3/view/home_page.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +12,12 @@ import 'personal_information.dart';
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_)=>HamburgerViewModel()),],
+  runApp(MultiProvider( // MaterialApp() 을 감싸는 Provider
+      providers: [
+        ChangeNotifierProvider(create: (_)=>HamburgerViewModel()), // HamburgerViewModel 클래스를 Provider로 등록
+        ChangeNotifierProvider(create: (_)=>LoginViewModel()),
+        ChangeNotifierProvider(create: (_)=>ChatViewModel()),
+      ],
       child: MyApp()));
 }
 

@@ -32,7 +32,7 @@ class Repository {
       final response = await http.get(
         Uri.parse('http://13.209.50.197:8080/daedong/$userId'),
       );
-      return ChatRoom.fromJson(jsonDecode(response.body));
+      return ChatRoom.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -43,7 +43,7 @@ class Repository {
     try {
       final response = await http.get(
           Uri.parse('http://13.209.50.197:8080/daedong/chatroom/$chatRoomId'));
-      return ChatRoom.fromJson(jsonDecode(response.body));
+      return  ChatRoom.fromJson(jsonDecode(response.body));
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -84,12 +84,14 @@ class Repository {
   Future<List<PastChat>> pastChatList(String userId) async {
     try {
       final response = await http
-          .get(Uri.parse('http://13.209.50.197:8080/daedong/pastList/$userId'));
-      dynamic body = jsonDecode(response.body); // response 값 body에 디코딩해서 담기
-      List<PastChat> chatList = body
-          .map((dynamic item) => PastChat.fromJson(item))
-          .toList(); // PastChat 객체로 변환해서 리스트 형태로 리턴
-      return chatList;
+          .get(Uri.parse('http://13.209.50.197:8080/daedong/menu/pastList/$userId'));
+      print(response.body);
+      dynamic chatList = jsonDecode(utf8.decode(response.bodyBytes)); // response 값 body에 디코딩해서 담기
+      // List<PastChat> chatList = body
+      //     .map((dynamic item) => PastChat.fromJson(item))
+      //     .toList(); // PastChat 객체로 변환해서 리스트 형태로 리턴
+
+      return (chatList as List).map((e) => PastChat.fromJson(e)).toList();
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -133,16 +135,15 @@ class Repository {
   }
 
   // 로그인
-  Future<User> login(Login login) async {
+  Future<User> loginRepo(Login login) async {
     try {
       final response = await http.post(
           Uri.parse('http://13.209.50.197:8080/daedong/login'),
-          headers: {"Content-Type": "application/x-www-form-urlencoded"},
-          body: login.toJson());
-      // User result = User.fromJson(jsonDecode(response.body)); // json 방식이 아닌 x-www-form-urlencoded 방식으로 주고받기 때문에 디코딩 필요없음
-      if(response.statusCode == 200){
-        return result; // User 객체 리턴, 아직 form-urlencoded 처리 못함
-      }
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(login.toJson()));
+      User result = User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      return result;
+
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -215,6 +216,22 @@ class Repository {
         return false;
       }
     } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  // schoolEmail 중복 체크(ID 중복체크)
+  Future<bool> checkDuplicatedEmail(String schoolEmail) async {
+    try{
+      final response = await http.get(
+        Uri.parse('http://13.209.50.197:8080/daedong/repeatCheck?schoolEmail=$schoolEmail')
+      );
+      if(response.statusCode == 200){
+        return true; // 중복이 아니라면 true 리턴
+      }else{
+        return false; // 이메일이 중복된다면 false 리턴
+      }
+    }catch (e){
       throw Exception('Error: $e');
     }
   }
