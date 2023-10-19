@@ -1,4 +1,7 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import '../model/chat_room.dart';
 import '../model/question.dart';
 import '../repository/repository.dart';
@@ -6,15 +9,23 @@ import '../repository/repository.dart';
 class ChatViewModel with ChangeNotifier{
   late final Repository _repository = Repository();
 
+  bool delayMessage = false;
+  String requestMessage = ""; // 사용자 질문 string
   String responseMessage = ""; // 사용자 질문에 대한 대동이의 답변
 
   // User의 메시지를 보내 대동이의 응답을 받는 함수
   sendMessage(String id, String request) async { // id는 ChatRoomOid, request는 사용자 질문 String
     responseMessage =""; // 이전 질문에 대한 답변을 초기화
+    delayMessage = false;
 
     Question question = Question(id: id, question: request); // 매개변수 받아서 Question 객체화
 
     responseMessage = await _repository.answerQuestion(question); // API 응답 받아서 responseMessage에 할당
+    Logger().d(responseMessage);
+
+    notifyListeners();
+
+    delayMessage = true;
 
     notifyListeners();
   }
@@ -34,4 +45,6 @@ class ChatViewModel with ChangeNotifier{
 
     notifyListeners();
   }
+
+
 }
