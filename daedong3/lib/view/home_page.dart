@@ -25,10 +25,12 @@ class HomePage extends StatelessWidget{
             centerTitle: true,
             elevation: 0.0 ,
 
-
           ),
-          body: Center(
-            child: Container(
+          body: WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: Center(
               child: Column(
 
                 children: [
