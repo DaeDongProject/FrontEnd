@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../model/chat_room.dart';
 import '../model/past_chat.dart';
 import '../model/user.dart';
+import '../model/past_chat.dart';
 import '../repository/repository.dart';
 
 class HamburgerViewModel with ChangeNotifier{

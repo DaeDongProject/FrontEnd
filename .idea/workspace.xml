@@ -4,39 +4,63 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94dc6d11-9b65-4c14-926e-25d49794104b" name="Changes" comment="" />
+    <list default="true" id="94dc6d11-9b65-4c14-926e-25d49794104b" name="Changes" comment="1018(past 끄적 - 검토 필수)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/chat/chat_message_deadong.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/chat/chat_message_deadong.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/hamburger/hamburger_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/hamburger/hamburger_menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/hamburger/past_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/hamburger/past_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/view/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/view/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/viewmodel/chat_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/viewmodel/chat_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/viewmodel/hamburger_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/viewmodel/hamburger_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/daedong3/lib/viewmodel/login_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/daedong3/lib/viewmodel/login_view_model.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/daedong3" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2QYEaVLjuCQqSd6vd6KiDD6pOg2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "C:/Users/정용훈/Documents/GitHub/frontend/daedong3",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "dart.settings",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/정용훈/Documents/GitHub/frontend/daedong3&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;module&quot;,
+      &quot;directory&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/daedong3/lib/main.dart" />
@@ -57,6 +81,28 @@
       <option name="presentableId" value="Default" />
       <updated>1685522179597</updated>
     </task>
+    <task id="LOCAL-00001" summary="1018(일단 지금까지)">
+      <created>1697556492007</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697556492007</updated>
+    </task>
+    <task id="LOCAL-00002" summary="1018(past 끄적 - 검토 필수)">
+      <created>1697576277468</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697576277468</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1018(past 끄적 - 검토 필수)">
+      <created>1697576902540</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697576902540</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -70,7 +116,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="origin/seungmin" />
                       </list>
                     </value>
                   </entry>
@@ -81,5 +127,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1018(일단 지금까지)" />
+    <MESSAGE value="1018(past 끄적 - 검토 필수)" />
+    <option name="LAST_COMMIT_MESSAGE" value="1018(past 끄적 - 검토 필수)" />
   </component>
 </project>

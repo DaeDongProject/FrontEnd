@@ -4,9 +4,10 @@ class ChatMessageDeaDong extends StatelessWidget {
   final String txt;
   final Animation<double> animation;
 
-  const ChatMessageDeaDong(this.txt, {
-    required this.animation,
-    Key? key}) : super(key: key);
+  const ChatMessageDeaDong(
+      this.txt, {
+        required this.animation,
+        Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

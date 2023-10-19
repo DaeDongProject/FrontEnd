@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class HamburgerMenu extends StatelessWidget {
   const HamburgerMenu({super.key});
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -21,7 +20,7 @@ class HamburgerMenu extends StatelessWidget {
 
       child: ListView(
         padding: EdgeInsets.zero,
-        children: <Widget>[
+        children : <Widget>[
           //StreamBuilder 확인
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.lightBlueAccent),
@@ -81,8 +80,6 @@ class HamburgerMenu extends StatelessWidget {
                       builder: (BuildContext context) =>
                           PastDialog()
                   ));
-
-
             },
             trailing: Icon(Icons.arrow_right),
           ),

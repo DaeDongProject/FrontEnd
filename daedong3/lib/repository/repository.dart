@@ -43,7 +43,7 @@ class Repository {
     try {
       final response = await http.get(
           Uri.parse('http://13.209.50.197:8080/daedong/chatroom/$chatRoomId'));
-      return  ChatRoom.fromJson(jsonDecode(response.body));
+      return ChatRoom.fromJson(jsonDecode(response.body));
     } catch (e) {
       throw Exception('Error: $e');
     }

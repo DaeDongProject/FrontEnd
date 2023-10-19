@@ -8,22 +8,25 @@ import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
 
 
+
 class HomePage extends StatelessWidget{
   GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
   final messageController = TextEditingController();
+  final ChatViewModel _chatViewModel = ChatViewModel();
+  late Repository _repository = Repository();
 
   @override
   Widget build(BuildContext context) {
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
     return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.lightBlueAccent,
-            title: Text("대동이",style: TextStyle(
-                fontSize: 20
-            )),
-            centerTitle: true,
-            elevation: 0.0 ,
+      appBar: AppBar(
+        backgroundColor: Colors.lightBlueAccent,
+        title: Text("대동이",style: TextStyle(
+            fontSize: 20
+        )),
+        centerTitle: true,
+        elevation: 0.0 ,
 
           ),
           body: WillPopScope(
@@ -107,10 +110,79 @@ class HomePage extends StatelessWidget{
                 ],
               ),
             ),
-          ),
 
-          drawer: HamburgerMenu(),
-        );
+            Center(
+              child: Container(
+                padding:  EdgeInsets.only(top: 15,bottom: 10),
+
+              ),
+            ),
+
+            Expanded(
+              child: AnimatedList(
+                key: _animListKey,
+                reverse: true,
+                itemBuilder: _buildItem,
+              ),
+            ),
+
+
+            Divider(
+              height: 5,
+              color: Colors.lightBlueAccent,
+            ),
+            Container(
+              child: ListTile(
+                title: Container(
+                  height: 35, decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    color : Color.fromRGBO(220, 220, 220, 1)
+                ),
+                  padding: EdgeInsets.only(left : 15),
+                  child: TextFormField(
+                    controller: messageController,
+                    decoration: InputDecoration(
+                      hintText: "메세지를 입력하세요",
+                      hintStyle: TextStyle(
+                          color: Colors.black26
+                      ),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                    ),
+                    //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
+                    style: TextStyle(
+                        fontSize: 16,
+                        color : Colors.black
+                    ),
+
+                  ),
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.send, size: 30, color: Colors.lightBlueAccent,
+                  ),
+                  onPressed: (){
+                    if(messageController.text.isEmpty){
+                      print("메세지를 입력하세요.");
+                    }
+                    else{
+                      _handleSunbmitted(messageController.text);
+                      _chatViewModel.sendMessage(widget.chatRoomId, messageController.text);
+                      messageController.clear();
+
+
+                    }
+                  },
+                ),
+              ),
+            ),
+        ),
+      ),
+
+      drawer: HamburgerMenu(chatRoomId: widget.chatRoomId),
+    );
 
   }
   Widget _buildItem(context, index, animation){
@@ -131,4 +203,3 @@ class HomePage extends StatelessWidget{
     _animListKey.currentState?.insertItem(0);
   }
 }
-
