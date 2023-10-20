@@ -115,19 +115,41 @@ class LoginScreen extends StatelessWidget{
                     if(loginViewModel.isEmailValid(emailController.text)){ // 형식이 올바를 때
 
                       print("로그인 형식 맞았음\n");
-                      await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
-
-                      Logger().d("로그인 유저 아이디 = ${loginViewModel.user.id}");
 
                       // 로그인 실패 시 AlertDialog 띄우기 구현 필요
+                      try{
+                        await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
+
+                        // 로그인 성공 시
+                        await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
+
+                        Logger().d("로그인 유저 아이디 = ${loginViewModel.user.id}");
+
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_)=>
+                            HomePage()));
+                      }catch(e){
+                        if(!context.mounted) return;
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("로그인 실패"),
+                              content: Text(e.toString().replaceAll("Exception: ", "")), // 실패 이유를 표시
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("확인"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
 
 
-                      // 로그인 성공 시
-                      await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
-
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_)=>
-                          HomePage()));
                     }else{
                       showDialog(
                           context: context,

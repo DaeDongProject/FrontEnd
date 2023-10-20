@@ -143,9 +143,8 @@ class Repository {
           body: jsonEncode(login.toJson()));
       User result = User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
       return result;
-
-    } catch (e) {
-      throw Exception('Error: $e');
+    } catch (e) { // 로그인 실패 시 띄울 오류 메시지
+      throw Exception("로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.");
     }
   }
 
