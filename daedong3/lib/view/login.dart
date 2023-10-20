@@ -1,6 +1,7 @@
 import 'package:daedong3/main.dart';
 import 'package:daedong3/view/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/chat_view_model.dart';
 import '../viewmodel/login_view_model.dart';
@@ -40,7 +41,8 @@ class LoginScreen extends StatelessWidget{
     LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
-    return Scaffold(
+    return WillPopScope(onWillPop: () async => false,
+    child: Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Container(
         margin: EdgeInsets.all(30),
@@ -109,27 +111,25 @@ class LoginScreen extends StatelessWidget{
                   child: Text('회원가입'),
                 ),
                 ElevatedButton( // 로그인 버튼
-                    onPressed: () async { // 로그인 버튼 클릭 시
-                      if(loginViewModel.isEmailValid(emailController.text)){ // 형식이 올바를 때
+                  onPressed: () async { // 로그인 버튼 클릭 시
+                    if(loginViewModel.isEmailValid(emailController.text)){ // 형식이 올바를 때
 
-                        print("로그인 형식 맞았음\n");
-                        await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
+                      print("로그인 형식 맞았음\n");
+                      await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
 
-                        // 로그인 쿼리 테스트 코드라인
-                        // loginViewModel.loginFunc("testhoon@suwon.ac.kr","test123123");
+                      Logger().d("로그인 유저 아이디 = ${loginViewModel.user.id}");
 
-                        // 로그인 실패 시 AlertDialog 띄우기 구현 필요
+                      // 로그인 실패 시 AlertDialog 띄우기 구현 필요
 
-                        // 로그인 성공 시
-                        await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
 
-                        print(chatViewModel.selectedChatRoom.id);
+                      // 로그인 성공 시
+                      await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
 
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (_)=>
-                            HomePage()));
-                      }else{
-                        showDialog(
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_)=>
+                          HomePage()));
+                    }else{
+                      showDialog(
                           context: context,
                           builder: (BuildContext context){
                             return AlertDialog( // 이메일의 형식이 틀렸을 때 실패 팝업 띄우기
@@ -145,18 +145,19 @@ class LoginScreen extends StatelessWidget{
                               ],
                             );
                           }
-                        );
-                        print("로그인 형식 틀렸음");
+                      );
+                      print("로그인 형식 틀렸음");
 
-                      }
-                    },//매개변수를 설정해서 홈페이지에 보내야함
-                    child: Text('로그인'),
+                    }
+                  },//매개변수를 설정해서 홈페이지에 보내야함
+                  child: Text('로그인'),
                 ),
               ],
             )
           ],
         ),
       ),
+    ),
     );
   }
 }
