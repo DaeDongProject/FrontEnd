@@ -8,8 +8,7 @@ class PastDialog extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
 
-      final HamburgerViewModel hamburgerViewModel = Provider.of<
-          HamburgerViewModel>(context);
+      final HamburgerViewModel hamburgerViewModel = Provider.of<HamburgerViewModel>(context);
       final LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
 
       int selectedIndex = -1;

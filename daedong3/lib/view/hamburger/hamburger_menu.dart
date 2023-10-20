@@ -2,6 +2,8 @@ import 'package:daedong3/personal_information.dart';
 import 'package:daedong3/view/home_page.dart';
 import 'package:daedong3/view/hamburger/past_dialog.dart';
 import 'package:daedong3/view/hamburger/privacy_update.dart';
+import 'package:daedong3/view/login.dart';
+import 'package:daedong3/viewmodel/chat_view_model.dart';
 import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:daedong3/viewmodel/login_view_model.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,9 @@ class HamburgerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final HamburgerViewModel hamburgerViewModel = Provider.of<HamburgerViewModel>(context);
-    final LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
+    HamburgerViewModel hamburgerViewModel = Provider.of<HamburgerViewModel>(context);
+    LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
+    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
     return Drawer(
 
@@ -55,8 +58,9 @@ class HamburgerMenu extends StatelessWidget {
               color: Colors.grey[850],
             ),
             title: Text("New Chat"),
-            onTap: () => {
-              hamburgerViewModel.createChatRoom(context, loginViewModel.user),
+            onTap: () async => {
+              await hamburgerViewModel.createChatRoom(context, loginViewModel.user), // 새 채팅방 생성
+              await chatViewModel.requestChatRoomInfo(chatRoomId: loginViewModel.user.chatRoomOid.last),
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (BuildContext context) =>
@@ -91,6 +95,10 @@ class HamburgerMenu extends StatelessWidget {
             title: Text("로그아웃"),
             onTap: () {
               hamburgerViewModel.logout();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen())
+              );
             },
             trailing: Icon(Icons.arrow_right),
           ),

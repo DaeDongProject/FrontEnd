@@ -8,18 +8,18 @@ import '../repository/repository.dart';
 import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
 
-
-
 class HomePage extends StatelessWidget{
   GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
   final messageController = TextEditingController();
-  final ChatViewModel _chatViewModel = ChatViewModel();
-  late Repository _repository = Repository();
+  final ScrollController _scrollController = ScrollController();
 
 
   @override
   Widget build(BuildContext context) {
+    late Repository repository = Repository();
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+
+    Logger().d("현재 채팅방 아이디 = ${chatViewModel.selectedChatRoom.id}");
 
     return Scaffold(
       appBar: AppBar(
@@ -95,9 +95,8 @@ class HomePage extends StatelessWidget{
                             print("메세지를 입력하세요.");
                           }
                           else{
-                            _handleSunbmitted(messageController.text, context);
-                            // _chatViewModel.sendMessage(widget.chatRoomId, messageController.text);
-                            // messageController.clear();
+             _handleSubmitted(messageController.text, context);
+                            messageController.clear();
                           }
                         },
                       ),
@@ -108,19 +107,45 @@ class HomePage extends StatelessWidget{
             ),
         ),
       drawer: HamburgerMenu(),
-      );
-  }
-  Widget _buildItem(context, index, animation){
-    // return ChatMessage(_chats[index], animation:animation);
-    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
-    return ChatMessage(chatViewModel.selectedChatRoom.contextUser[index].question, animation: animation,);
+    );
   }
 
-  void _handleSunbmitted(String text, BuildContext context){
+  Widget _buildItem(context, index, animation){ // 위젯 위에 채팅을 그려주는 아이템빌더
+    // return ChatMessage(_chats[index], animation:animation);
+    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+
+    if(chatViewModel.delayMessage == false) {
+      return ChatMessage(chatViewModel.requestMessage, animation: animation); // 유저 메시지 띄우기
+    }else{
+      return ChatMessageDeaDong(chatViewModel.responseMessage, animation: animation); // 대동이 메시지 띄우기
+    }
+  }
+
+  void _handleSubmitted(String text, BuildContext context){ // 메시지 제출 함수
     Logger().d(text);
-    // ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
-    messageController.clear();
-    // chatViewModel.selectedChatRoom;
+
+    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context, listen: false);
+
+    // messageController.clear();
+    // _chats.insert(0,text); // 유저 context의 question 집합들
+    chatViewModel.requestMessage = text;
+    chatViewModel.sendMessage(chatViewModel.selectedChatRoom.id, chatViewModel.requestMessage);
+
+    _scrollController.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
     _animListKey.currentState?.insertItem(0);
+  }
+
+  int _initialItemCount(BuildContext context){
+    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+
+    if(chatViewModel.selectedChatRoom.contextUser.isEmpty){
+      return 1;
+    }else{
+      return chatViewModel.selectedChatRoom.contextUser.length;
+    }
   }
 }
