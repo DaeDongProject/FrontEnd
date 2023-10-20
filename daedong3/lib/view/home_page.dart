@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget{
   final messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
+
   @override
   Widget build(BuildContext context) {
     late Repository repository = Repository();
@@ -42,14 +43,11 @@ class HomePage extends StatelessWidget{
                       fontSize: 15
                   ),
                   ),
-
                   Center(
                     child: Container(
                       padding:  EdgeInsets.only(top: 15,bottom: 10),
-
                     ),
                   ),
-
                   Expanded(
                     child: AnimatedList(
                       key: _animListKey,
@@ -57,8 +55,6 @@ class HomePage extends StatelessWidget{
                       itemBuilder: _buildItem,
                     ),
                   ),
-
-
                   Divider(
                     height: 5,
                     color: Colors.lightBlueAccent,
@@ -99,20 +95,18 @@ class HomePage extends StatelessWidget{
                             print("메세지를 입력하세요.");
                           }
                           else{
-                            _handleSubmitted(messageController.text, context);
+             _handleSubmitted(messageController.text, context);
                             messageController.clear();
                           }
                         },
                       ),
                     ),
                   )
-
                 ],
               ),
             ),
         ),
       drawer: HamburgerMenu(),
-
     );
   }
 
@@ -129,6 +123,7 @@ class HomePage extends StatelessWidget{
 
   void _handleSubmitted(String text, BuildContext context){ // 메시지 제출 함수
     Logger().d(text);
+
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context, listen: false);
 
     // messageController.clear();
