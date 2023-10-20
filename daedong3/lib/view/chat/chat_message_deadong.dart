@@ -23,11 +23,6 @@ class ChatMessageDeaDong extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CircleAvatar(
-
-                backgroundColor: Colors.lightBlueAccent,
-                child: Text("대동이"),
-              ),
               SizedBox(
                 width:  16,
               ),
@@ -35,8 +30,16 @@ class ChatMessageDeaDong extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("ID or Name", style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text(txt),
+                      Text("대동이", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Container(
+                        child: Text(txt,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),),
+                        padding: EdgeInsets.all(7.0),
+                        decoration: BoxDecoration(
+                            color: Colors.lightBlueAccent,
+                            borderRadius: BorderRadius.circular(20),
+                            border : Border.all(color: Colors.grey.shade400,)
+                        ),
+                      ),
                     ],
                   )
               ),

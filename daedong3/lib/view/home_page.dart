@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import '../repository/repository.dart';
 import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
 
@@ -14,6 +15,7 @@ class HomePage extends StatelessWidget{
   final messageController = TextEditingController();
   final ChatViewModel _chatViewModel = ChatViewModel();
   late Repository _repository = Repository();
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +43,11 @@ class HomePage extends StatelessWidget{
                       fontSize: 15
                   ),
                   ),
-
                   Center(
                     child: Container(
                       padding:  EdgeInsets.only(top: 15,bottom: 10),
-
                     ),
                   ),
-
                   Expanded(
                     child: AnimatedList(
                       key: _animListKey,
@@ -56,8 +55,6 @@ class HomePage extends StatelessWidget{
                       itemBuilder: _buildItem,
                     ),
                   ),
-
-
                   Divider(
                     height: 5,
                     color: Colors.lightBlueAccent,
@@ -88,7 +85,6 @@ class HomePage extends StatelessWidget{
                               fontSize: 16,
                               color : Colors.black
                           ),
-
                         ),
                       ),
                       trailing: IconButton(
@@ -100,106 +96,31 @@ class HomePage extends StatelessWidget{
                           }
                           else{
                             _handleSunbmitted(messageController.text, context);
-
+                            // _chatViewModel.sendMessage(widget.chatRoomId, messageController.text);
+                            // messageController.clear();
                           }
                         },
                       ),
                     ),
                   )
-
                 ],
               ),
             ),
-
-            Center(
-              child: Container(
-                padding:  EdgeInsets.only(top: 15,bottom: 10),
-
-              ),
-            ),
-
-            Expanded(
-              child: AnimatedList(
-                key: _animListKey,
-                reverse: true,
-                itemBuilder: _buildItem,
-              ),
-            ),
-
-
-            Divider(
-              height: 5,
-              color: Colors.lightBlueAccent,
-            ),
-            Container(
-              child: ListTile(
-                title: Container(
-                  height: 35, decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    color : Color.fromRGBO(220, 220, 220, 1)
-                ),
-                  padding: EdgeInsets.only(left : 15),
-                  child: TextFormField(
-                    controller: messageController,
-                    decoration: InputDecoration(
-                      hintText: "메세지를 입력하세요",
-                      hintStyle: TextStyle(
-                          color: Colors.black26
-                      ),
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                    ),
-                    //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
-                    style: TextStyle(
-                        fontSize: 16,
-                        color : Colors.black
-                    ),
-
-                  ),
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.send, size: 30, color: Colors.lightBlueAccent,
-                  ),
-                  onPressed: (){
-                    if(messageController.text.isEmpty){
-                      print("메세지를 입력하세요.");
-                    }
-                    else{
-                      _handleSunbmitted(messageController.text);
-                      _chatViewModel.sendMessage(widget.chatRoomId, messageController.text);
-                      messageController.clear();
-
-
-                    }
-                  },
-                ),
-              ),
-            ),
         ),
-      ),
-
-      drawer: HamburgerMenu(chatRoomId: widget.chatRoomId),
-    );
-
+      drawer: HamburgerMenu(),
+      );
   }
   Widget _buildItem(context, index, animation){
     // return ChatMessage(_chats[index], animation:animation);
-
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
-
     return ChatMessage(chatViewModel.selectedChatRoom.contextUser[index].question, animation: animation,);
   }
 
   void _handleSunbmitted(String text, BuildContext context){
     Logger().d(text);
-    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
-
+    // ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
     messageController.clear();
-    // _chats.insert(0,text);
-    chatViewModel.selectedChatRoom;
+    // chatViewModel.selectedChatRoom;
     _animListKey.currentState?.insertItem(0);
   }
 }
