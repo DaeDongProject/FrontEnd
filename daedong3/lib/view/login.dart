@@ -1,5 +1,6 @@
 import 'package:daedong3/main.dart';
 import 'package:daedong3/view/home_page.dart';
+import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class LoginScreen extends StatelessWidget{
 
     LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+    HamburgerViewModel hamburgerViewModel = Provider.of<HamburgerViewModel>(context);
 
     return WillPopScope(onWillPop: () async => false,
     child: Scaffold(
@@ -124,6 +126,8 @@ class LoginScreen extends StatelessWidget{
                         await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
 
                         Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
+
+                        if(!context.mounted) return; // 비동기 처리 후 navigator 쌓을 때 위젯이 안 쌓이는 것을 방지
 
                         Navigator.push(
                             context, MaterialPageRoute(builder: (_)=>
