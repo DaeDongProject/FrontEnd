@@ -31,8 +31,11 @@ class HamburgerViewModel with ChangeNotifier{
 
   // 채팅방 목록 반환하는 함수
   Future pastChatList(User user) async {
-    chatList = await _repository.pastChatList(user.id);
-
+    try {
+      chatList = await _repository.pastChatList(user.id);
+    }catch(e){
+      rethrow;
+    }
     notifyListeners();
   }
 
