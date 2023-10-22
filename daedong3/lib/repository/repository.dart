@@ -85,7 +85,6 @@ class Repository {
     try {
       final response = await http
           .get(Uri.parse('http://13.209.50.197:8080/daedong/menu/pastList/$userId'));
-      print(response.body);
       dynamic chatList = jsonDecode(utf8.decode(response.bodyBytes)); // response 값 body에 디코딩해서 담기
       // List<PastChat> chatList = body
       //     .map((dynamic item) => PastChat.fromJson(item))
@@ -121,7 +120,7 @@ class Repository {
     // bool 값으로 리턴
     try {
       final response = await http.post(
-          Uri.parse('http://13.209.50.197:8080/daedong/deletechatroom'),
+          Uri.parse('http://13.209.50.197:8080/daedong/menu/deletechatroom'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(chatRoom.toJson()));
       if (response.body == "success") {
