@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget{
                         // 로그인 성공 시
                         await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
 
-                        Logger().d("로그인 유저 아이디 = ${loginViewModel.user.id}");
+                        Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
 
                         Navigator.push(
                             context, MaterialPageRoute(builder: (_)=>

@@ -35,6 +35,8 @@ class ChatViewModel with ChangeNotifier{
   // 로그인 성공 시 처음 띄울 채팅방 정보를 selectedChatRoom에 할당하는 함수
   Future requestChatRoomInfo({String? userId, String? chatRoomId}) async { // 매개변수 둘 중 하나만 입력, Named Parameter임을 유의
 
+
+
     if((userId != null) && (chatRoomId == null)){ // 로그인 시 처음 띄울 채팅방의 조건
       selectedChatRoom = await _repository.latestChatRoom(userId);
     }else if((userId == null) && (chatRoomId != null)){ // 채팅 목록에서 선택할 때의 조건
@@ -42,6 +44,8 @@ class ChatViewModel with ChangeNotifier{
     }else{ // 매개변수가 둘 다 들어왔거나 안 들어왔을 때 => 바로 return : 원래 selectedChatRoom 그대로 유지
       return;
     }
+
+    Logger().d("현재 채팅방 아이디 = ${selectedChatRoom.id}");
 
     notifyListeners();
   }

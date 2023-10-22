@@ -61,6 +61,7 @@ class HamburgerMenu extends StatelessWidget {
             onTap: () async => {
               await hamburgerViewModel.createChatRoom(context, loginViewModel.user), // 새 채팅방 생성
               await chatViewModel.requestChatRoomInfo(chatRoomId: loginViewModel.user.chatRoomOid.last),
+
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (BuildContext context) =>

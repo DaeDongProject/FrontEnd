@@ -9,7 +9,7 @@ import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
 
 class HomePage extends StatelessWidget{
-  GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
   final messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
