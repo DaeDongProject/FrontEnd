@@ -35,9 +35,9 @@ class ChatMessageDeaDong extends StatelessWidget {
                         child: Text(txt,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),),
                         padding: EdgeInsets.all(7.0),
                         decoration: BoxDecoration(
-                            color: Colors.lightBlueAccent,
+                            color: Colors.grey.shade400,
                             borderRadius: BorderRadius.circular(20),
-                            border : Border.all(color: Colors.grey.shade400,)
+                            border : Border.all(color: Colors.grey.shade200,)
                         ),
                       ),
                     ],

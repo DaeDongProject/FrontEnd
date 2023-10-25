@@ -13,6 +13,9 @@ class HomePage extends StatelessWidget{
   final messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
+  List<String> question = [];
+  List<String> answer = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +98,7 @@ class HomePage extends StatelessWidget{
                             print("메세지를 입력하세요.");
                           }
                           else{
-             _handleSubmitted(messageController.text, context);
+                            _handleSubmitted(messageController.text, context);
                             messageController.clear();
                           }
                         },
@@ -114,10 +117,15 @@ class HomePage extends StatelessWidget{
     // return ChatMessage(_chats[index], animation:animation);
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
+
+    question.insert(0, chatViewModel.requestMessage);
+    answer.insert(0, chatViewModel.responseMessage);
+
+
     if(chatViewModel.delayMessage == false) {
-      return ChatMessage(chatViewModel.requestMessage, animation: animation); // 유저 메시지 띄우기
+      return ChatMessage(question[0], animation: animation); // 유저 메시지 띄우기
     }else{
-      return ChatMessageDeaDong(chatViewModel.responseMessage, animation: animation); // 대동이 메시지 띄우기
+      return ChatMessageDeaDong(answer[0], animation: animation); // 대동이 메시지 띄우기
     }
   }
 
@@ -125,7 +133,6 @@ class HomePage extends StatelessWidget{
     Logger().d(text);
 
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context, listen: false);
-
     // messageController.clear();
     // _chats.insert(0,text); // 유저 context의 question 집합들
     chatViewModel.requestMessage = text;
