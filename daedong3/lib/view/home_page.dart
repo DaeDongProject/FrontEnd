@@ -1,5 +1,4 @@
 import 'package:daedong3/view/chat/chat_message.dart';
-import 'package:daedong3/view/chat/chat_message_deadong.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -123,9 +122,10 @@ class HomePage extends StatelessWidget{
 
 
     if(chatViewModel.delayMessage == false) {
-      return ChatMessage(question[0], animation: animation); // 유저 메시지 띄우기
+      return ChatMessage(question[0], true,animation: animation); // 유저 메시지 띄우기
     }else{
-      return ChatMessageDeaDong(answer[0], animation: animation); // 대동이 메시지 띄우기
+      // return ChatMessageDeaDong(answer[0], animation: animation); // 대동이 메시지 띄우기
+      return ChatMessage(answer[0], false, animation: animation);
     }
   }
 
