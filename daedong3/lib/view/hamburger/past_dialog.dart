@@ -6,6 +6,8 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/past_chat.dart';
+import '../home_page.dart';
+import 'hamburger_menu.dart';
 
 class PastDialog extends StatelessWidget {
   @override
@@ -14,7 +16,7 @@ class PastDialog extends StatelessWidget {
     final LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
     final ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
-    bool finishGetList = false;
+    TextEditingController newTitle = TextEditingController();
 
     return ExpansionTile(
       title: Text('이전 대화 내용'),
@@ -35,9 +37,15 @@ class PastDialog extends StatelessWidget {
                 index--) // 최근 채팅방을 위쪽에 표시하기 위해 역으로 순환
               ListTile(
                 title: Text(hamburgerViewModel.chatList[index].chatTitle),
-                selected: ,
-                
-                onTap: , // 눌렀을 때 수행할 동작
+
+                onTap: (){
+                  chatViewModel.requestChatRoomInfo(chatRoomId: hamburgerViewModel.chatList[index].objectId);
+
+                  Navigator.pushReplacement(
+                      context,MaterialPageRoute(
+                      builder: (_)=>HomePage()));
+
+                }, // 눌렀을 때 수행할 동작
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -45,12 +53,81 @@ class PastDialog extends StatelessWidget {
                       child: Icon(Icons.edit),
                       onTap: () {
                         // 수정 아이콘 클릭 시 수행할 동작
+                        // 제목 수정 Dialog
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("채팅방 제목 수정"),
+                              content: Column(
+                                children: [
+                                  TextField(
+                                    controller: newTitle,
+                                    decoration: InputDecoration(
+                                      hintText: hamburgerViewModel.chatList[index].chatTitle,
+
+                                    ),
+                                  )
+                                ],
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("취소")),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      // newTitle 을 updateTitle로 요청
+                                      await hamburgerViewModel.updateTitle(newTitle.text, index);
+
+                                      // 채팅방 다시 조회하기
+                                      await hamburgerViewModel.pastChatList(loginViewModel.user);
+
+                                    },
+                                    child: Text("수정"),
+                                  // 빈칸이면 버튼 비활성화
+
+                                ),
+                              ],
+                            );
+                          }
+                        );
                       },
                     ),
                     InkWell(
                       child: Icon(Icons.delete),
                       onTap: () {
                         // 삭제 아이콘 클릭 시 수행할 동작
+                        // 확인 버튼 채팅방 삭제 Dialog
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("채탕방 삭제"),
+                              actions: [
+                                TextButton(
+                                  child: Text("취소"),
+                                  onPressed: (){
+                                    Navigator.pop(context, );
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text("삭제"),
+                                  onPressed: () async {
+                                    await hamburgerViewModel.deleteChatRoom( // 채팅방 Id를 보내서 삭제하기
+                                        hamburgerViewModel.chatList[index].objectId);
+
+                                    await hamburgerViewModel.pastChatList(loginViewModel.user);
+
+                                    if(!context.mounted) return;
+                                    Navigator.pop(context, );
+                                  },
+                                )
+                              ],
+                            );
+                          }
+                        );
                       },
                     ),
                   ],
