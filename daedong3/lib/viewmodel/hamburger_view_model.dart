@@ -33,6 +33,7 @@ class HamburgerViewModel with ChangeNotifier{
   Future pastChatList(User user) async {
     try {
       chatList = await _repository.pastChatList(user.id);
+
     }catch(e){
       rethrow;
     }
@@ -57,14 +58,12 @@ class HamburgerViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  Future updateTitle(String newTitle, int index) async {
+  Future updateTitle(String newTitle, String chatRoomId) async {
     try{
-      // index 에 맞는 ChatRoom 정보 조회
-      ChatRoom chatInfo = await _repository.chosenChatRoom(
-        chatList[index].objectId);
+      ChatRoom willUpdateChatRoom = await _repository.chosenChatRoom(chatRoomId);
 
-      // newTitle과 채팅방 정보 chatInfo를 서버에 넘겨서 제목 업데이트
-      await _repository.updateTitle(chatInfo, newTitle);
+      await _repository.updateTitle(willUpdateChatRoom, newTitle);
+
 
       notifyListeners();
 
