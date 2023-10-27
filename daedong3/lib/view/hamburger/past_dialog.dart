@@ -79,11 +79,15 @@ class PastDialog extends StatelessWidget {
                                 ElevatedButton(
                                     onPressed: () async {
                                       // newTitle 을 updateTitle로 요청
-                                      await hamburgerViewModel.updateTitle(newTitle.text, index);
+                                      await hamburgerViewModel.updateTitle(newTitle.text,
+                                          hamburgerViewModel.chatList[index].objectId);
 
                                       // 채팅방 다시 조회하기
                                       await hamburgerViewModel.pastChatList(loginViewModel.user);
 
+                                      Logger().d(hamburgerViewModel.chatList[index].chatTitle);
+                                      if(!context.mounted) return;
+                                      Navigator.pop(context, );
                                     },
                                     child: Text("수정"),
                                   // 빈칸이면 버튼 비활성화
@@ -118,10 +122,10 @@ class PastDialog extends StatelessWidget {
                                     await hamburgerViewModel.deleteChatRoom( // 채팅방 Id를 보내서 삭제하기
                                         hamburgerViewModel.chatList[index].objectId);
 
-                                    await hamburgerViewModel.pastChatList(loginViewModel.user);
+                                    await hamburgerViewModel.pastChatList(loginViewModel.user); // 채팅 다시 조회하기
 
                                     if(!context.mounted) return;
-                                    Navigator.pop(context, );
+                                    Navigator.pop(context, ); // 팝업창 이전 화면으로 돌아가기
                                   },
                                 )
                               ],
