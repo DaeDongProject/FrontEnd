@@ -102,7 +102,7 @@ class Repository {
     try {
       final response = await http.post(
           Uri.parse(
-              'http://13.209.50.197:8080/daedong/updatetitle/$newChatTitle'),
+              'http://13.209.50.197:8080/daedong/menu/updatetitle/$newChatTitle'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(chatRoom.toJson()));
       if (response.body == "success") {
