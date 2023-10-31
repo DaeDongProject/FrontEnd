@@ -88,4 +88,12 @@ class HamburgerViewModel with ChangeNotifier{
   Future logout() async {
     await _repository.logout();
   }
+
+  bool isEditName = true;
+
+  void editName(){
+    isEditName = !isEditName;
+
+    notifyListeners();
+  }
 }
