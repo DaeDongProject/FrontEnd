@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget{
     late Repository repository = Repository();
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
-    Logger().d("현재 채팅방 아이디 = ${chatViewModel.selectedChatRoom.id}");
+    Logger().d("현재 채팅방 제목 = ${chatViewModel.selectedChatRoom.chatTitle}");
 
     return Scaffold(
       appBar: AppBar(
