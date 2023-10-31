@@ -60,6 +60,7 @@ class PastDialog extends StatelessWidget {
                             return AlertDialog(
                               title: const Text("채팅방 제목 수정"),
                               content: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   TextField(
                                     controller: newTitle,
