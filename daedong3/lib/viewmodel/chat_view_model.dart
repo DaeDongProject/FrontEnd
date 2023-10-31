@@ -43,8 +43,6 @@ class ChatViewModel with ChangeNotifier{
       return;
     }
 
-    Logger().d("현재 채팅방 아이디 = ${selectedChatRoom.id}");
-
     notifyListeners();
   }
 
