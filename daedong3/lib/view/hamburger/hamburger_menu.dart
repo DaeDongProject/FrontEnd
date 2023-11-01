@@ -61,6 +61,7 @@ class HamburgerMenu extends StatelessWidget {
             onTap: () async => {
               await hamburgerViewModel.createChatRoom(context, loginViewModel.user), // 새 채팅방 생성
               await chatViewModel.requestChatRoomInfo(chatRoomId: loginViewModel.user.chatRoomOid.last),
+
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (BuildContext context) =>
@@ -69,24 +70,7 @@ class HamburgerMenu extends StatelessWidget {
             },
             trailing: Icon(Icons.arrow_right),
           ),
-
-          ListTile(
-            leading: Icon(
-              Icons.content_paste_go,
-              color: Colors.grey[850],
-            ),
-            title: Text("이전 대화 내용"),
-            onTap: () async {
-              await hamburgerViewModel.pastChatList(loginViewModel.user); // 채팅 리스트 서버에서 가져오기
-
-              Navigator.push(context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          PastDialog()
-                  ));
-            },
-            trailing: Icon(Icons.arrow_right),
-          ),
+          PastDialog(), // 이전 채팅 목록 불러오기
           ListTile(
             leading: Icon(
               Icons.exit_to_app,

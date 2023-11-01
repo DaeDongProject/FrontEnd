@@ -85,7 +85,6 @@ class Repository {
     try {
       final response = await http
           .get(Uri.parse('http://13.209.50.197:8080/daedong/menu/pastList/$userId'));
-      print(response.body);
       dynamic chatList = jsonDecode(utf8.decode(response.bodyBytes)); // response 값 body에 디코딩해서 담기
       // List<PastChat> chatList = body
       //     .map((dynamic item) => PastChat.fromJson(item))
@@ -103,7 +102,7 @@ class Repository {
     try {
       final response = await http.post(
           Uri.parse(
-              'http://13.209.50.197:8080/daedong/updatetitle/$newChatTitle'),
+              'http://13.209.50.197:8080/daedong/menu/updatetitle/$newChatTitle'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(chatRoom.toJson()));
       if (response.body == "success") {
@@ -121,7 +120,7 @@ class Repository {
     // bool 값으로 리턴
     try {
       final response = await http.post(
-          Uri.parse('http://13.209.50.197:8080/daedong/deletechatroom'),
+          Uri.parse('http://13.209.50.197:8080/daedong/menu/deletechatroom'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(chatRoom.toJson()));
       if (response.body == "success") {
@@ -143,27 +142,25 @@ class Repository {
           body: jsonEncode(login.toJson()));
       User result = User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
       return result;
-
-    } catch (e) {
-      throw Exception('Error: $e');
+    } catch (e) { // 로그인 실패 시 띄울 오류 메시지
+      throw Exception("로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.");
     }
   }
 
   // 회원 정보 수정
-  Future<bool> updateUserInfo(UserUpdate userUpdate, String id) async {
+  Future<User> updateUserInfo(User user) async {
     // id 는 UserId
     try {
       final response = await http.put(
           Uri.parse(
-              'http://13.209.50.197:8080/daedong/updateuserinformation/$id'),
+              'http://13.209.50.197:8080/daedong/updateUser'),
           // #Uri 상 _id 이지만 private 처리 문제로 일단 id로 적어둠
           headers: {"Content-Type": "application/json"},
-          body: jsonEncode(userUpdate.toJson()));
-      if (response.body == "success") {
-        return true;
-      } else {
-        return false;
-      }
+          body: jsonEncode(user.toJson()));
+      User result = User.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+
+      return result;
+
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -173,7 +170,7 @@ class Repository {
   Future<bool> deleteUser(User user) async {
     try {
       final response = await http.post(
-          Uri.parse('http://13.209.50.197:8080/daedong/deleteuser'),
+          Uri.parse('http://13.209.50.197:8080/daedong/deleteUser'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(user.toJson()));
       if (response.body == "success") {

@@ -31,12 +31,69 @@ class HamburgerViewModel with ChangeNotifier{
 
   // 채팅방 목록 반환하는 함수
   Future pastChatList(User user) async {
-    chatList = await _repository.pastChatList(user.id);
+    try {
+      chatList = await _repository.pastChatList(user.id);
+
+    }catch(e){
+      rethrow;
+    }
+    notifyListeners();
+  }
+
+
+
+  // 채팅방 삭제 요청 함수
+  Future deleteChatRoom(String chatRoomId) async {
+    try {
+      ChatRoom willDeleteChat = await _repository.chosenChatRoom(chatRoomId); // 채팅방 정보 가져오기
+
+      await _repository.deleteChatRoom(willDeleteChat); // 채팅방 정보로 삭제 요청 보내기
+
+
+
+    }catch(e){
+      rethrow;
+    }
 
     notifyListeners();
   }
 
+  Future updateTitle(String newTitle, String chatRoomId) async {
+    try{
+      ChatRoom willUpdateChatRoom = await _repository.chosenChatRoom(chatRoomId);
+
+      await _repository.updateTitle(willUpdateChatRoom, newTitle);
+
+
+      notifyListeners();
+
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  bool updateTitleButtonDisabled = true;
+  void isDisableUpdateButton(String value){
+    if(value.isEmpty) {
+      updateTitleButtonDisabled = true;
+    }
+    else {
+      updateTitleButtonDisabled = false;
+    }
+
+    notifyListeners();
+  }
+
+  // 로그아웃 요청 함수
   Future logout() async {
     await _repository.logout();
+  }
+
+  bool isEditName = true;
+
+  void editName(){
+    isEditName = !isEditName;
+
+    notifyListeners();
   }
 }

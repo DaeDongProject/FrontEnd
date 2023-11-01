@@ -54,7 +54,11 @@ class LoginViewModel with ChangeNotifier{
   Future loginFunc(String email, String password) async {
     Login loginQuery = Login(schoolEmail: email, password: password);
 
-    user = await _repository.loginRepo(loginQuery);
+    try{
+      user = await _repository.loginRepo(loginQuery);
+    }catch(e){
+      rethrow; // loginView로 에러 던지기
+    }
 
     notifyListeners();
   }

@@ -34,7 +34,7 @@ class ChatViewModel with ChangeNotifier{
 
   late ChatRoom selectedChatRoom = ChatRoom(id: "초기화채팅방", userId: "", deleteYn: false, contextUser: [], chatTitle: ""); // 초기화/ User가 현재 선택한, 사용 중인 채팅방(채팅 목록에서 선택 중인 채팅방 아님)
 
-  // 로그인 성공 시 처음 띄울 채팅방 정보를 selectedChatRoom에 할당하는 함수
+  // 화면에 띄울 채팅방 정보를 selectedChatRoom에 할당하는 함수
   Future requestChatRoomInfo({String? userId, String? chatRoomId}) async { // 매개변수 둘 중 하나만 입력, Named Parameter임을 유의
 
     if((userId != null) && (chatRoomId == null)){ // 로그인 시 처음 띄울 채팅방의 조건

@@ -1,5 +1,6 @@
 import 'package:daedong3/main.dart';
 import 'package:daedong3/view/home_page.dart';
+import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class LoginScreen extends StatelessWidget{
 
     LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+    HamburgerViewModel hamburgerViewModel = Provider.of<HamburgerViewModel>(context);
 
     return WillPopScope(onWillPop: () async => false,
     child: Scaffold(
@@ -91,18 +93,44 @@ class LoginScreen extends StatelessWidget{
                     if(loginViewModel.isEmailValid(emailController.text)){ // 형식이 올바를 때
 
                       print("로그인 형식 맞았음\n");
-                      await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
-
-                      Logger().d("로그인 유저 아이디 = ${loginViewModel.user.id}");
 
                       // 로그인 실패 시 AlertDialog 띄우기 구현 필요
+                      try{
+                        await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
 
-                      // 로그인 성공 시
-                      
+                        // 로그인 성공 시
+                        await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
 
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_)=>
-                          HomePage()));
+                        Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
+
+
+                        if(!context.mounted) return; // 비동기 처리 후 navigator 쌓을 때 위젯이 안 쌓이는 것을 방지
+
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_)=>
+                            HomePage()));
+                      }catch(e){
+                        if(!context.mounted) return;
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("로그인 실패"),
+                              content: Text(e.toString().replaceAll("Exception: ", "")), // 실패 이유를 표시
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("확인"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
+
                     }else{
                       showDialog(
                           context: context,

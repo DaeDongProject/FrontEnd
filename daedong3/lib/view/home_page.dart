@@ -11,7 +11,7 @@ import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
 
 class HomePage extends StatelessWidget{
-  GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _animListKey = GlobalKey<AnimatedListState>();
   final messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget{
     late Repository repository = Repository();
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
-    Logger().d("현재 채팅방 아이디 = ${chatViewModel.selectedChatRoom.id}");
+    Logger().d("현재 채팅방 제목 = ${chatViewModel.selectedChatRoom.chatTitle}");
 
     return Scaffold(
       appBar: AppBar(
