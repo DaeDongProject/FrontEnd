@@ -196,8 +196,6 @@ class  Join extends StatelessWidget {
 
                           //Logger().d("로그인 유저 아이디 = ${loginViewModel.user.id}");
                           //회원가입시 칸에 있는 정보를 넘기는 view_model 필요할듯
-
-
                           Navigator.push(
                               context, MaterialPageRoute(builder: (_)=>
                               LoginScreen()));

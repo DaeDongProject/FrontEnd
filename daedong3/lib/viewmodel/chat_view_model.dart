@@ -28,6 +28,8 @@ class ChatViewModel with ChangeNotifier{
     delayMessage = true;
 
     notifyListeners();
+
+    // return responseMessage;
   }
 
   late ChatRoom selectedChatRoom = ChatRoom(id: "초기화채팅방", userId: "", deleteYn: false, contextUser: [], chatTitle: ""); // 초기화/ User가 현재 선택한, 사용 중인 채팅방(채팅 목록에서 선택 중인 채팅방 아님)

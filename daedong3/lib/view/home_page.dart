@@ -1,8 +1,11 @@
+import 'dart:js_util';
+
 import 'package:daedong3/view/chat/chat_message.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import '../model/chat_item.dart';
 import '../repository/repository.dart';
 import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
@@ -14,6 +17,8 @@ class HomePage extends StatelessWidget{
 
   List<String> question = [];
   List<String> answer = [];
+  List<String> message = [];
+  List<ChatItem> chatItems = [];
 
 
   @override
@@ -70,6 +75,7 @@ class HomePage extends StatelessWidget{
                       ),
                         padding: EdgeInsets.only(left : 15),
                         child: TextFormField(
+                          maxLines: null,
                           controller: messageController,
                           decoration: InputDecoration(
                             hintText: "메세지를 입력하세요",
@@ -114,19 +120,34 @@ class HomePage extends StatelessWidget{
 
   Widget _buildItem(context, index, animation){ // 위젯 위에 채팅을 그려주는 아이템빌더
     // return ChatMessage(_chats[index], animation:animation);
-    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+    ChatItem chatItem = chatItems[index];
+
+    //ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
+
+    // if (chatViewModel.requestMessage != null && chatViewModel.responseMessage == ""){
+    //   message.insert(0, chatViewModel.requestMessage);
+    // }else if(chatViewModel.requestMessage != null && chatViewModel.responseMessage != ""){
+    //   message.insert(0, chatViewModel.responseMessage);
+    // }
+    //첫 답변 뷰에 안올라오고 인덱스 의심할것
+    //1번째 싸이클은 잘 돌아가나 두번째부터 등차수열로 들어감
+
+    // question.insert(0, chatViewModel.requestMessage);
+    // answer.insert(0, chatViewModel.responseMessage);
+    // message.insert(0, chatViewModel.requestMessage);
+    // message.insert(0, chatViewModel.responseMessage);
+    // message.insert(0, chatViewModel.responseMessage);
+
+    // print(message);
+    //
+    // return  chatViewModel.delayMessage ?
+    // ChatMessage(message[0], false, animation: animation) :
+    // ChatMessage(message[1], true,animation: animation);
+    //return ChatMessage(message, true, animation: animation);
+
+    return ChatMessage(chatItem, true, animation: animation);
 
 
-    question.insert(0, chatViewModel.requestMessage);
-    answer.insert(0, chatViewModel.responseMessage);
-
-
-    if(chatViewModel.delayMessage == false) {
-      return ChatMessage(question[0], true,animation: animation); // 유저 메시지 띄우기
-    }else{
-      // return ChatMessageDeaDong(answer[0], animation: animation); // 대동이 메시지 띄우기
-      return ChatMessage(answer[0], false, animation: animation);
-    }
   }
 
   void _handleSubmitted(String text, BuildContext context){ // 메시지 제출 함수
@@ -138,21 +159,19 @@ class HomePage extends StatelessWidget{
     chatViewModel.requestMessage = text;
     chatViewModel.sendMessage(chatViewModel.selectedChatRoom.id, chatViewModel.requestMessage);
 
+    // if (chatViewModel.requestMessage != null && chatViewModel.responseMessage != "") {
+    ChatItem newItem = ChatItem(chatViewModel.requestMessage, chatViewModel.responseMessage);
+    chatItems.insert(0, newItem);
+
+
+    chatViewModel.notifyListeners();
+
+
     _scrollController.animateTo(
       0.0,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
     _animListKey.currentState?.insertItem(0);
-  }
-
-  int _initialItemCount(BuildContext context){
-    ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
-
-    if(chatViewModel.selectedChatRoom.contextUser.isEmpty){
-      return 1;
-    }else{
-      return chatViewModel.selectedChatRoom.contextUser.length;
-    }
   }
 }
