@@ -9,27 +9,6 @@ import '../viewmodel/login_view_model.dart';
 import 'package:daedong3/view/join.dart';
 
 
-class Login extends StatelessWidget {
-  const Login({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-
-    return MaterialApp(
-      theme: ThemeData(
-        textButtonTheme: TextButtonThemeData(
-            style: TextButton.styleFrom(primary: Colors.black)
-        ),
-        // elevatedButtonTheme: ElevatedButtonThemeData(
-        //   style: ElevatedButton.styleFrom(primary: Colors.black)
-        // )
-      ),
-      debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
-    );
-  }
-}
-
 class LoginScreen extends StatelessWidget{
   LoginScreen({super.key});
 
@@ -45,12 +24,17 @@ class LoginScreen extends StatelessWidget{
 
     return WillPopScope(onWillPop: () async => false,
     child: Scaffold(
+
       backgroundColor: Colors.lightBlueAccent,
       body: Container(
+
         margin: EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text('로그인',style: TextStyle(fontSize: 24.0),),
+
+            SizedBox(height: 36,),
 
             TextField(
               controller: emailController,
@@ -61,10 +45,6 @@ class LoginScreen extends StatelessWidget{
                 hintText: '이메일를 입력하세요',
                 hintStyle: TextStyle(color: Colors.black26),
                 labelStyle: TextStyle(color: Colors.black26),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(width: 1, color: Colors.white),
-                ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(width: 1, color: Colors.white),
@@ -85,10 +65,6 @@ class LoginScreen extends StatelessWidget{
                 hintText: '비밀번호를 입력하세요',
                 hintStyle: TextStyle(color: Colors.black26),
                 labelStyle: TextStyle(color: Colors.black26),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(width: 1, color: Colors.white),
-                ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(width: 1, color: Colors.white),
@@ -108,7 +84,7 @@ class LoginScreen extends StatelessWidget{
                   onPressed: (){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (_)=>
-                        JoinScreen()));
+                        Join()));
                   },
                   child: Text('회원가입'),
                 ),
@@ -126,6 +102,7 @@ class LoginScreen extends StatelessWidget{
                         await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
 
                         Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
+
 
                         if(!context.mounted) return; // 비동기 처리 후 navigator 쌓을 때 위젯이 안 쌓이는 것을 방지
 

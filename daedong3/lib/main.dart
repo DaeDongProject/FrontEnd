@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
       //home: HomePage(PersonalInformation('로그인 필요','')),
-      home : Login(),
+      home : LoginScreen(),
       initialRoute: '/login',
       onGenerateRoute: _getRoute,
 
@@ -48,8 +48,7 @@ Route<dynamic>? _getRoute(RouteSettings settings){
 
   return MaterialPageRoute<void>(
       settings: settings,
-      builder: (BuildContext context) => Login(),
-      fullscreenDialog: true,
+      builder: (BuildContext context) => LoginScreen()
   );
 }
 
