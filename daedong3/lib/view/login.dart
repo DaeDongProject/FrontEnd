@@ -98,7 +98,7 @@ class LoginScreen extends StatelessWidget{
                       // 로그인 실패 시 AlertDialog 띄우기 구현 필요
 
                       // 로그인 성공 시
-                      await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
+                      
 
                       Navigator.push(
                           context, MaterialPageRoute(builder: (_)=>
