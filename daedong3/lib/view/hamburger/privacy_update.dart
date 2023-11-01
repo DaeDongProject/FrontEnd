@@ -47,51 +47,62 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Form(
+        body: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Text("이름"),
-                    SizedBox(
-                      width: 200,
-                      child: TextFormField(// 이름 입력 Form
-                        decoration: InputDecoration(
-                          hintText: loginViewModel.user.name,
-                        ),
-                        initialValue: loginViewModel.user.name,
-                        autovalidateMode: AutovalidateMode.always,
-                        onSaved: (nameController){
-                          setState(() {
-                            textName = nameController as String;
-                          });
-                        },
-                        validator: (nameController){ // 사용자 이름 입력 값에 따른 검증 조건식
-                          if(nameController == null || nameController.isEmpty){ // 공백일 때
-                            return "이름은 필수 입력 사항입니다.";
-                          }
-                          return null;
-                        },
-                        readOnly: hamburgerViewModel.isEditName,
-                      ),
-                    ),
-                    TextButton(
-                        child: Text("이름 변경"),
-                        onPressed: (){
-                          hamburgerViewModel.editName();
-                        })
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextFormField( // 이메일 입력 Form
+                      SizedBox(width: 8,),
+                      Text("이름", style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        fontStyle: FontStyle.normal,
+                      ),),
+                      SizedBox(width: 8,),
+                      SizedBox(
+                        width: 300,
+                        child: TextFormField(// 이름 입력 Form
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: loginViewModel.user.name,
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(8.0),
+                          ),
+                          initialValue: loginViewModel.user.name,
+                          autovalidateMode: AutovalidateMode.always,
+                          onSaved: (nameController){
+                            setState(() {
+                              textName = nameController as String;
+                            });
+                          },
+                          validator: (nameController){ // 사용자 이름 입력 값에 따른 검증 조건식
+                            if(nameController == null || nameController.isEmpty){ // 공백일 때
+                              return "이름은 필수 입력 사항입니다.";
+                            }
+                            return null;
+                          },
+                          readOnly: hamburgerViewModel.isEditName,
+                        ),
+                      ),
+                      SizedBox(width: 8,),
+                      ElevatedButton(
+                          child: Text("이름 변경"),
+                          onPressed: (){
+                            hamburgerViewModel.editName();
+                          })
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: TextFormField( // 이메일 입력 Form
                         decoration: InputDecoration(
                           hintText: loginViewModel.user.schoolEmail,
                           labelText: "이메일",
@@ -112,16 +123,14 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                           return null;
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      TextFormField(
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: "비밀번호",
                         ),
@@ -142,14 +151,13 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                           return null;
                         },
                       ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 }
