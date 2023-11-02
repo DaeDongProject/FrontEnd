@@ -40,7 +40,13 @@ class HamburgerViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  String selectedId = ""; // pastDialog에서 현재 선택된 채팅방을 표시할 변수
 
+  void selectChatId(String id){
+    selectedId = id;
+
+    notifyListeners();
+  }
 
   // 채팅방 삭제 요청 함수
   Future deleteChatRoom(String chatRoomId) async {
@@ -93,6 +99,14 @@ class HamburgerViewModel with ChangeNotifier{
 
   void editName(){
     isEditName = !isEditName;
+
+    notifyListeners();
+  }
+
+  bool isEditEmail = true;
+
+  void editEmail(){
+    isEditEmail = !isEditEmail;
 
     notifyListeners();
   }
