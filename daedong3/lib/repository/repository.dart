@@ -223,7 +223,7 @@ class Repository {
       final response = await http.get(
         Uri.parse('http://13.209.50.197:8080/daedong/repeatCheck?schoolEmail=$schoolEmail')
       );
-      if(response.statusCode == 200){
+      if(response.body == "true"){
         return true; // 중복이 아니라면 true 리턴
       }else{
         return false; // 이메일이 중복된다면 false 리턴
