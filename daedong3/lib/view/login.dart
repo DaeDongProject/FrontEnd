@@ -100,6 +100,7 @@ class LoginScreen extends StatelessWidget{
 
                         // 로그인 성공 시
                         await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
+                        hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id); // pastDialog에서 표시할 최근 선택방 선택시키기
 
                         Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import '../model/chat_room.dart';
@@ -9,6 +10,7 @@ import '../repository/repository.dart';
 class ChatViewModel with ChangeNotifier{
   late final Repository _repository = Repository();
 
+  HamburgerViewModel hamburgerViewModel = HamburgerViewModel();
   bool delayMessage = false;
   String requestMessage = ""; // 사용자 질문 string
   String responseMessage = ""; // 사용자 질문에 대한 대동이의 답변
@@ -44,6 +46,7 @@ class ChatViewModel with ChangeNotifier{
     }else{ // 매개변수가 둘 다 들어왔거나 안 들어왔을 때 => 바로 return : 원래 selectedChatRoom 그대로 유지
       return;
     }
+
 
     notifyListeners();
   }
