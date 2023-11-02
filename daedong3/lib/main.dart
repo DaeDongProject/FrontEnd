@@ -1,3 +1,4 @@
+import 'package:daedong3/view/hamburger/privacy_update.dart';
 import 'package:daedong3/view/login.dart';
 import 'package:daedong3/viewmodel/chat_view_model.dart';
 import 'package:daedong3/viewmodel/hamburger_view_model.dart';
@@ -31,7 +32,6 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(backgroundColor: Colors.lightBlueAccent)
         ),
         debugShowCheckedModeBanner: false,
-      //home: HomePage(PersonalInformation('로그인 필요','')),
       home : Login(),
       initialRoute: '/login',
       onGenerateRoute: _getRoute,
