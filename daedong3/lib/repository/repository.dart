@@ -151,7 +151,7 @@ class Repository {
   Future<User> updateUserInfo(User user) async {
     // id 는 UserId
     try {
-      final response = await http.put(
+      final response = await http.post(
           Uri.parse(
               'http://13.209.50.197:8080/daedong/updateUser'),
           // #Uri 상 _id 이지만 private 처리 문제로 일단 id로 적어둠

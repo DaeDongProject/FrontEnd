@@ -1,3 +1,4 @@
+import 'package:daedong3/model/login.dart';
 import 'package:daedong3/viewmodel/chat_view_model.dart';
 import 'package:daedong3/viewmodel/login_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +9,10 @@ import '../model/user.dart';
 import '../model/past_chat.dart';
 import '../repository/repository.dart';
 
-class HamburgerViewModel with ChangeNotifier{
+class HamburgerViewModel with ChangeNotifier {
   late final Repository _repository = Repository();
-  late LoginViewModel loginViewModel;
   late ChatViewModel chatViewModel;
+  late LoginViewModel loginViewModel;
 
   String newChatOid = ""; // 새 채팅방 아이디
 
@@ -19,10 +20,12 @@ class HamburgerViewModel with ChangeNotifier{
   Future createChatRoom(BuildContext context, User user) async {
     newChatOid = await _repository.createChatRoom(user);
 
-    if(!context.mounted) return; // 비동기 처리 후 Provider를 쓸 때 위젯이 마운트되지 않는 걸 방지
-    loginViewModel = Provider.of<LoginViewModel>(context, listen:false);
 
-    loginViewModel.user.chatRoomOid.add(newChatOid); // user의 채팅 리스트에 새로운 채팅방id 추가
+    if (!context.mounted) return; // 비동기 처리 후 Provider를 쓸 때 위젯이 마운트되지 않는 걸 방지
+    loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+
+    loginViewModel.user.chatRoomOid
+        .add(newChatOid); // user의 채팅 리스트에 새로운 채팅방id 추가
 
     notifyListeners(); // Provider Listener에게 변화 알리기
   }
@@ -33,8 +36,7 @@ class HamburgerViewModel with ChangeNotifier{
   Future pastChatList(User user) async {
     try {
       chatList = await _repository.pastChatList(user.id);
-
-    }catch(e){
+    } catch (e) {
       rethrow;
     }
     notifyListeners();
@@ -42,7 +44,7 @@ class HamburgerViewModel with ChangeNotifier{
 
   String selectedId = ""; // pastDialog에서 현재 선택된 채팅방을 표시할 변수
 
-  void selectChatId(String id){
+  void selectChatId(String id) {
     selectedId = id;
 
     notifyListeners();
@@ -51,13 +53,11 @@ class HamburgerViewModel with ChangeNotifier{
   // 채팅방 삭제 요청 함수
   Future deleteChatRoom(String chatRoomId) async {
     try {
-      ChatRoom willDeleteChat = await _repository.chosenChatRoom(chatRoomId); // 채팅방 정보 가져오기
+      ChatRoom willDeleteChat =
+          await _repository.chosenChatRoom(chatRoomId); // 채팅방 정보 가져오기
 
       await _repository.deleteChatRoom(willDeleteChat); // 채팅방 정보로 삭제 요청 보내기
-
-
-
-    }catch(e){
+    } catch (e) {
       rethrow;
     }
 
@@ -65,25 +65,24 @@ class HamburgerViewModel with ChangeNotifier{
   }
 
   Future updateTitle(String newTitle, String chatRoomId) async {
-    try{
-      ChatRoom willUpdateChatRoom = await _repository.chosenChatRoom(chatRoomId);
+    try {
+      ChatRoom willUpdateChatRoom =
+          await _repository.chosenChatRoom(chatRoomId);
 
       await _repository.updateTitle(willUpdateChatRoom, newTitle);
 
-
       notifyListeners();
-
-    }catch(e){
+    } catch (e) {
       rethrow;
     }
   }
 
   bool updateTitleButtonDisabled = true;
-  void isDisableUpdateButton(String value){
-    if(value.isEmpty) {
+
+  void isDisableUpdateButton(String value) {
+    if (value.isEmpty) {
       updateTitleButtonDisabled = true;
-    }
-    else {
+    } else {
       updateTitleButtonDisabled = false;
     }
 
@@ -97,7 +96,7 @@ class HamburgerViewModel with ChangeNotifier{
 
   bool isEditName = true;
 
-  void editName(){
+  void editName() {
     isEditName = !isEditName;
 
     notifyListeners();
@@ -105,8 +104,29 @@ class HamburgerViewModel with ChangeNotifier{
 
   bool isEditEmail = true;
 
-  void editEmail(){
+  void editEmail() {
     isEditEmail = !isEditEmail;
+
+    notifyListeners();
+  }
+
+  Future updateUser(BuildContext context, String id, String name, String email, String password,
+      String phoneNumber, String school, bool pushAlarm,
+      bool personalInformation, List<dynamic> chatRoomOid) async {
+
+    loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+    User modifyUser = User(
+        id: id,
+        name: name,
+        phoneNumber: phoneNumber,
+        schoolEmail: email,
+        password: password,
+        schoolName: school,
+        pushAlarm: pushAlarm,
+        personalInformation: personalInformation,
+        chatRoomOid: chatRoomOid);
+
+    loginViewModel.user = await _repository.updateUserInfo(modifyUser);
 
     notifyListeners();
   }

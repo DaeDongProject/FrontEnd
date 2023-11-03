@@ -1,6 +1,7 @@
 import 'package:daedong3/personal_information.dart';
 import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import '../../config/sp_helper.dart';
@@ -77,7 +78,7 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                           isDense: true,
                           contentPadding: EdgeInsets.all(8.0),
                         ),
-                        initialValue: loginViewModel.user.name,
+                        initialValue: textName,
                         autovalidateMode: AutovalidateMode.always,
                         onSaved: (value){
                           setState(() {
@@ -114,8 +115,11 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                           isDense: true,
                           contentPadding: EdgeInsets.all(8.0),
                         ),
-                        initialValue: loginViewModel.user.schoolEmail,
+                        initialValue: textEmail,
                         autovalidateMode: AutovalidateMode.always,
+                        onChanged: (value){
+                          textEmail = value;
+                        },
                         onSaved: (value){
                           setState(() {
                             textEmail = value as String;
@@ -241,8 +245,12 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                           isDense: true,
                           contentPadding: EdgeInsets.all(8.0),
                         ),
-                        initialValue: loginViewModel.user.phoneNumber,
+                        initialValue: textPhoneNumber,
                         autovalidateMode: AutovalidateMode.always,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(11),
+                        ],
                         onSaved: (value){
                           setState(() {
                             textPhoneNumber = value as String;
@@ -284,7 +292,7 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                           isDense: true,
                           contentPadding: EdgeInsets.all(8.0),
                         ),
-                        initialValue: loginViewModel.user.schoolName,
+                        initialValue: textSchool,
                         autovalidateMode: AutovalidateMode.always,
                         onSaved: (value){
                           setState(() {
@@ -315,12 +323,37 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                     SizedBox(width: 10,),
                     ElevatedButton(
                         onPressed: () async {
-                          await loginViewModel.checkDuplicatedEmail(emailController.text);
+                          if(textEmail != loginViewModel.user.schoolEmail){
+                            await loginViewModel.checkDuplicatedEmail(textEmail);
+                          }
 
                           Logger().d("뷰에서 체크 ${loginViewModel.emailChecking}");
 
                           if(_formKey.currentState!.validate()) {// 검증이 모두 통과된다면
                             _formKey.currentState!.save(); // onSaved() 함수를 호출해서 변수 값 저장시키기
+
+                            Logger().d("이름 $textName, 이메일 $textEmail, 비밀번호 $textPassword, 전화번호 $textPhoneNumber");
+
+                            if(!context.mounted) return;
+                            await hamburgerViewModel.updateUser(context, loginViewModel.user.id, textName, textEmail, textPassword,
+                                textPhoneNumber, textSchool, loginViewModel.user.pushAlarm,
+                                loginViewModel.user.personalInformation, loginViewModel.user.chatRoomOid);
+
+                            if(!context.mounted) return;
+                            showDialog(context: context, builder: (context){
+                              return AlertDialog(
+                                title: Text("알림"),
+                                content: Text("정보 수정 완료"),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("확인"))
+                                ],
+                              );
+                            });
                           }
                         },
                         child: Text("수정")),
