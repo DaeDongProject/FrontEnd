@@ -14,6 +14,12 @@ class LoginViewModel with ChangeNotifier{
 
   bool loginValidator = false; // 위 두 개를 검사해서 이 변수로 로그인 버튼 활성화.
 
+  String userPassword = ""; // 회원 탈퇴를 위해 들고 있을 비밀번호 변수
+  bringPassword(String password){
+    userPassword = password;
+
+  }
+
   late User user = User(id: "notyetinitial", name: "초기화", phoneNumber: "01012345678", schoolEmail: "init@suwon.ac.kr", password: "1111", schoolName: "수원대", pushAlarm: false, personalInformation: false, chatRoomOid: []); // 객체 초기화
 
   // 이메일의 형식이 유효한지 검사하는 함수
@@ -73,7 +79,6 @@ class LoginViewModel with ChangeNotifier{
     Logger().d("로그인뷰모델 이메일체크 $emailChecking");
 
     notifyListeners();
-
   }
 
   // 회원가입 함수

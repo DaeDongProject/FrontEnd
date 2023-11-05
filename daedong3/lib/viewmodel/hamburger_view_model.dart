@@ -64,6 +64,7 @@ class HamburgerViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // 제목 수정 함수
   Future updateTitle(String newTitle, String chatRoomId) async {
     try {
       ChatRoom willUpdateChatRoom =
@@ -110,6 +111,7 @@ class HamburgerViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // 유저 정보 업데이트 함수
   Future updateUser(BuildContext context, String id, String name, String email, String password,
       String phoneNumber, String school, bool pushAlarm,
       bool personalInformation, List<dynamic> chatRoomOid) async {
@@ -127,6 +129,13 @@ class HamburgerViewModel with ChangeNotifier {
         chatRoomOid: chatRoomOid);
 
     loginViewModel.user = await _repository.updateUserInfo(modifyUser);
+
+    notifyListeners();
+  }
+
+  // 회원 탈퇴 함수
+  Future deleteUser(User user) async {
+    await _repository.deleteUser(user);
 
     notifyListeners();
   }

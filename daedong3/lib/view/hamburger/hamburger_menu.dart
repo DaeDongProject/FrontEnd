@@ -82,9 +82,9 @@ class HamburgerMenu extends StatelessWidget {
             title: Text("로그아웃"),
             onTap: () {
               hamburgerViewModel.logout();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen())
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      LoginScreen()), (route) => false
               );
             },
             trailing: Icon(Icons.arrow_right),

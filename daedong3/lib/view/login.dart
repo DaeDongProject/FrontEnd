@@ -104,7 +104,7 @@ class LoginScreen extends StatelessWidget{
 
                         Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
 
-
+                        loginViewModel.bringPassword(passwordController.text);
                         if(!context.mounted) return; // 비동기 처리 후 navigator 쌓을 때 위젯이 안 쌓이는 것을 방지
 
                         Navigator.push(
