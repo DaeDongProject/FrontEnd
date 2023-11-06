@@ -23,7 +23,6 @@ class ChatViewModel with ChangeNotifier{
     Question question = Question(id: id, question: request); // 매개변수 받아서 Question 객체화
 
     responseMessage = await _repository.answerQuestion(question); // API 응답 받아서 responseMessage에 할당
-    Logger().d(responseMessage);
 
     notifyListeners();
 
@@ -34,22 +33,34 @@ class ChatViewModel with ChangeNotifier{
     // return responseMessage;
   }
 
+  final StreamController<ChatRoom> _chatRoomController = StreamController<ChatRoom>.broadcast();
+
+  Stream<ChatRoom> get chatRoomStream => _chatRoomController.stream;
+
   late ChatRoom selectedChatRoom = ChatRoom(id: "초기화채팅방", userId: "", deleteYn: false, contextUser: [], chatTitle: ""); // 초기화/ User가 현재 선택한, 사용 중인 채팅방(채팅 목록에서 선택 중인 채팅방 아님)
 
   // 화면에 띄울 채팅방 정보를 selectedChatRoom에 할당하는 함수
   Future requestChatRoomInfo({String? userId, String? chatRoomId}) async { // 매개변수 둘 중 하나만 입력, Named Parameter임을 유의
+    ChatRoom newChatRoom;
 
     if((userId != null) && (chatRoomId == null)){ // 로그인 시 처음 띄울 채팅방의 조건
-      selectedChatRoom = await _repository.latestChatRoom(userId);
+      newChatRoom = await _repository.latestChatRoom(userId);
     }else if((userId == null) && (chatRoomId != null)){ // 채팅 목록에서 선택할 때의 조건
-      selectedChatRoom = await _repository.chosenChatRoom(chatRoomId);
+      newChatRoom = await _repository.chosenChatRoom(chatRoomId);
     }else{ // 매개변수가 둘 다 들어왔거나 안 들어왔을 때 => 바로 return : 원래 selectedChatRoom 그대로 유지
       return;
     }
 
+    _chatRoomController.sink.add(newChatRoom);
+    selectedChatRoom = newChatRoom;
 
     notifyListeners();
   }
 
+  void disposeStreamController(){
+    _chatRoomController.close();
+
+    notifyListeners();
+  }
 
 }
