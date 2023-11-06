@@ -1,5 +1,6 @@
 import 'dart:js_util';
 
+import 'package:daedong3/model/context.dart';
 import 'package:daedong3/view/chat/chat_message.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,8 +26,6 @@ class HomePage extends StatelessWidget{
   Widget build(BuildContext context) {
     late Repository repository = Repository();
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
-
-    Logger().d("현재 채팅방 제목 = ${chatViewModel.selectedChatRoom.chatTitle}, id = ${chatViewModel.selectedChatRoom.id}");
 
     return Scaffold(
       appBar: AppBar(
@@ -146,8 +145,6 @@ class HomePage extends StatelessWidget{
     //return ChatMessage(message, true, animation: animation);
 
     return ChatMessage(chatItem, true, animation: animation);
-
-
   }
 
   void _handleSubmitted(String text, BuildContext context){ // 메시지 제출 함수
