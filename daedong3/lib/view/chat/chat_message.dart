@@ -25,6 +25,7 @@ class ChatMessage extends StatelessWidget {
       //   child: SizeTransition(
       //     // sizeFactor: animation,
       //     axisAlignment: -1.0,
+
           child: Row(
             mainAxisAlignment: isMe ?  MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
@@ -77,4 +78,3 @@ class ChatMessage extends StatelessWidget {
     // );
   }
 }
-

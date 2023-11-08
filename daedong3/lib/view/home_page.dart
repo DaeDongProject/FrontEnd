@@ -148,7 +148,16 @@ class _HomePageState extends State<HomePage> {
                       //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
+                    onPressed: () {
+                      if (messageController.text.isEmpty) {
+                        print("메세지를 입력하세요.");
+                      } else {
+                        _handleSubmitted(messageController.text, context);
+                        messageController.clear();
+                      }
+                    },
                   ),
+
                   trailing: IconButton(
                     icon: Icon(
                       Icons.send,
@@ -181,6 +190,7 @@ class _HomePageState extends State<HomePage> {
 
     ChatViewModel chatViewModel =
         Provider.of<ChatViewModel>(context, listen: false);
+
     // messageController.clear();
     // _chats.insert(0,text); // 유저 context의 question 집합들
     await chatViewModel.sendMessage(
