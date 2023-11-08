@@ -1,14 +1,12 @@
-import 'dart:js_util';
-
-import 'package:daedong3/model/context.dart';
+import 'package:daedong3/model/chat_room.dart';
 import 'package:daedong3/view/chat/chat_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_mongodb_realm/database/database.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import '../model/chat_item.dart';
-import '../repository/repository.dart';
 import '../viewmodel/chat_view_model.dart';
 import 'hamburger/hamburger_menu.dart';
 
@@ -47,13 +45,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if(_scrollController.hasClients){
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    }
+
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
 
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
-
     Logger().d(chatViewModel.selectedChatRoom.chatTitle);
 
-    // int contextIdx = 0;
+    int contextIdx = 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -78,26 +82,44 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(top: 15, bottom: 10),
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount:
-                      chatViewModel.selectedChatRoom.contextUser.length * 2,
-                  itemBuilder: (BuildContext context, index) {
-                    final contextIdx = index ~/ 2;
-                    if (index % 2 == 0) {
-                      return ChatMessage(chatViewModel.selectedChatRoom.contextUser[contextIdx]['question'], true);
-                    } else if (index % 2 == 1) {
-                        return ChatMessage(chatViewModel.selectedChatRoom.contextUser[contextIdx]['answer'], false);
-                    }
-                  }
+              StreamBuilder(
+                stream: chatViewModel.chatRoomController.stream,
+                builder: (context, snapshot) {
+                  return Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount:
+                          // chatViewModel.selectedChatRoom.contextUser.length * 2,
+                          snapshot.data!.contextUser.length*2,
+                      itemBuilder: (BuildContext context, index) {
+                        final contextIdx = index ~/ 2;
+                        if (snapshot.hasError){
+                          return Text("데이터 오류");
+                        }
+                        if (snapshot.connectionState == ConnectionState.waiting){
+                          return Text("응답을 받아오는 중입니다");
+                        }
+                        // if(chatViewModel.selectedChatRoom.contextUser[contextIdx]! == null) {
+                        //   return ChatMessage("응답을 받아오는 중입니다.", false);
+                        // }
+                        if (index % 2 == 0) {
+                          // return ChatMessage(chatViewModel.selectedChatRoom.contextUser[contextIdx]['question'], true);
+                          return ChatMessage(snapshot.data!.contextUser[contextIdx]['question'], true);
 
-                  // child: AnimatedList(
-                  //   key: _animListKey,
-                  //   reverse: true,
-                  //   itemBuilder: _buildItem,
-                  // ),
-                ),
+                        } else if (index % 2 == 1) {
+
+                          return ChatMessage(snapshot.data!.contextUser[contextIdx]['answer'], false);
+                        }
+                      }
+
+                      // child: AnimatedList(
+                      //   key: _animListKey,
+                      //   reverse: true,
+                      //   itemBuilder: _buildItem,
+                      // ),
+                    ),
+                  );
+                }
               ),
               Divider(
                 height: 5,
@@ -153,7 +175,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Widget _buildItem(context, index, animation){ // 위젯 위에 채팅을 그려주는 아이템빌더
-  void _handleSubmitted(String text, BuildContext context) {
+  void _handleSubmitted(String text, BuildContext context) async {
     // 메시지 제출 함수
     Logger().d(text);
 
@@ -161,11 +183,10 @@ class _HomePageState extends State<HomePage> {
         Provider.of<ChatViewModel>(context, listen: false);
     // messageController.clear();
     // _chats.insert(0,text); // 유저 context의 question 집합들
-    chatViewModel.requestMessage = text;
-    chatViewModel.sendMessage(
-        chatViewModel.selectedChatRoom.id, chatViewModel.requestMessage);
+    await chatViewModel.sendMessage(
+        chatViewModel.selectedChatRoom.id, text);
 
-
+    await chatViewModel.requestChatRoomInfo(chatRoomId: chatViewModel.selectedChatRoom.id);
 
     // // if (chatViewModel.requestMessage != null && chatViewModel.responseMessage != "") {
     // ChatItem newItem =

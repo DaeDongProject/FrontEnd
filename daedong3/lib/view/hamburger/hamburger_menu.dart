@@ -65,11 +65,12 @@ class HamburgerMenu extends StatelessWidget {
               hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id);
 
               if(!context.mounted) return;
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (BuildContext context) =>
-                    HomePage()),
-              );
+              Navigator.pop(context);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (BuildContext context) =>
+              //       HomePage()),
+              // );
             },
             trailing: Icon(Icons.arrow_right),
           ),
@@ -82,9 +83,7 @@ class HamburgerMenu extends StatelessWidget {
             title: Text("로그아웃"),
             onTap: () {
               hamburgerViewModel.logout();
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      LoginScreen()), (route) => false
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false
               );
             },
             trailing: Icon(Icons.arrow_right),

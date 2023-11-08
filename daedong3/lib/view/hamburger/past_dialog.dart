@@ -46,9 +46,11 @@ class PastDialog extends StatelessWidget {
                     hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id);
 
                     if(!context.mounted) return;
-                    Navigator.pushReplacement(
-                        context,MaterialPageRoute(
-                        builder: (_)=>HomePage()));
+                    Navigator.pop(context);
+
+                    // Navigator.pushReplacement(
+                    //     context,MaterialPageRoute(
+                    //     builder: (_)=>HomePage()));
                   }
 
                 }, // 눌렀을 때 수행할 동작
@@ -160,6 +162,7 @@ class PastDialog extends StatelessWidget {
 
                                       if(!context.mounted) return;
                                       Navigator.pop(context, ); // 팝업창 이전 화면으로 돌아가기
+                                      Navigator.pop(context);
                                     }
 
                                   },
