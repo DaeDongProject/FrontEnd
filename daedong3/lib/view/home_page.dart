@@ -15,15 +15,10 @@ class HomePage extends StatelessWidget{
   final messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  List<String> question = [];
-  List<String> answer = [];
-  List<String> message = [];
   List<ChatItem> chatItems = [];
-
 
   @override
   Widget build(BuildContext context) {
-    late Repository repository = Repository();
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
     Logger().d("현재 채팅방 제목 = ${chatViewModel.selectedChatRoom.chatTitle}");
@@ -104,6 +99,7 @@ class HomePage extends StatelessWidget{
                           }
                           else{
                             _handleSubmitted(messageController.text, context);
+                            chatViewModel.sendMessage(chatViewModel.selectedChatRoom.id, messageController.text);
                             messageController.clear();
                           }
                         },
@@ -122,42 +118,18 @@ class HomePage extends StatelessWidget{
     // return ChatMessage(_chats[index], animation:animation);
     ChatItem chatItem = chatItems[index];
 
-    //ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
-
-    // if (chatViewModel.requestMessage != null && chatViewModel.responseMessage == ""){
-    //   message.insert(0, chatViewModel.requestMessage);
-    // }else if(chatViewModel.requestMessage != null && chatViewModel.responseMessage != ""){
-    //   message.insert(0, chatViewModel.responseMessage);
-    // }
-    //첫 답변 뷰에 안올라오고 인덱스 의심할것
-    //1번째 싸이클은 잘 돌아가나 두번째부터 등차수열로 들어감
-
-    // question.insert(0, chatViewModel.requestMessage);
-    // answer.insert(0, chatViewModel.responseMessage);
-    // message.insert(0, chatViewModel.requestMessage);
-    // message.insert(0, chatViewModel.responseMessage);
-    // message.insert(0, chatViewModel.responseMessage);
-
-    // print(message);
-    //
-    // return  chatViewModel.delayMessage ?
-    // ChatMessage(message[0], false, animation: animation) :
-    // ChatMessage(message[1], true,animation: animation);
-    //return ChatMessage(message, true, animation: animation);
-
-    return ChatMessage(chatItem, true, animation: animation);
+    return ChatMessage(chatItems, true, animation: animation);
 
 
   }
 
-  void _handleSubmitted(String text, BuildContext context){ // 메시지 제출 함수
+  void _handleSubmitted(String text, BuildContext context){
     Logger().d(text);
 
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context, listen: false);
     // messageController.clear();
     // _chats.insert(0,text); // 유저 context의 question 집합들
     chatViewModel.requestMessage = text;
-    chatViewModel.sendMessage(chatViewModel.selectedChatRoom.id, chatViewModel.requestMessage);
 
     // if (chatViewModel.requestMessage != null && chatViewModel.responseMessage != "") {
     ChatItem newItem = ChatItem(chatViewModel.requestMessage, chatViewModel.responseMessage);
