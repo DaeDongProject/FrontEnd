@@ -43,7 +43,7 @@ class Repository {
     try {
       final response = await http.get(
           Uri.parse('http://13.209.50.197:8080/daedong/chatroom/$chatRoomId'));
-      return ChatRoom.fromJson(jsonDecode(response.body));
+      return ChatRoom.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } catch (e) {
       throw Exception('Error: $e');
     }
@@ -151,7 +151,7 @@ class Repository {
   Future<User> updateUserInfo(User user) async {
     // id 는 UserId
     try {
-      final response = await http.put(
+      final response = await http.post(
           Uri.parse(
               'http://13.209.50.197:8080/daedong/updateUser'),
           // #Uri 상 _id 이지만 private 처리 문제로 일단 id로 적어둠
@@ -223,7 +223,7 @@ class Repository {
       final response = await http.get(
         Uri.parse('http://13.209.50.197:8080/daedong/repeatCheck?schoolEmail=$schoolEmail')
       );
-      if(response.statusCode == 200){
+      if(response.body == "true"){
         return true; // 중복이 아니라면 true 리턴
       }else{
         return false; // 이메일이 중복된다면 false 리턴

@@ -100,10 +100,11 @@ class LoginScreen extends StatelessWidget{
 
                         // 로그인 성공 시
                         await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
+                        hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id); // pastDialog에서 표시할 최근 선택방 선택시키기
 
                         Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
 
-
+                        loginViewModel.bringPassword(passwordController.text);
                         if(!context.mounted) return; // 비동기 처리 후 navigator 쌓을 때 위젯이 안 쌓이는 것을 방지
 
                         Navigator.push(

@@ -41,8 +41,8 @@ class HamburgerMenu extends StatelessWidget {
               color: Colors.grey[850],
             ),
             title: Text("개인정보 수정"),
-            onTap: () async {
-              PersonalInformation updateInformation = await Navigator.push(
+            onTap: () {
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
@@ -58,15 +58,19 @@ class HamburgerMenu extends StatelessWidget {
               color: Colors.grey[850],
             ),
             title: Text("New Chat"),
-            onTap: () async => {
-              await hamburgerViewModel.createChatRoom(context, loginViewModel.user), // 새 채팅방 생성
-              await chatViewModel.requestChatRoomInfo(chatRoomId: loginViewModel.user.chatRoomOid.last),
+            onTap: () async {
+              await hamburgerViewModel.createChatRoom(context, loginViewModel.user); // 새 채팅방 생성
+              await chatViewModel.requestChatRoomInfo(chatRoomId: loginViewModel.user.chatRoomOid.last); // 새로 생성된 채팅방으로 채팅방 설정
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (BuildContext context) =>
-                    HomePage()),
-              )
+              hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id);
+
+              if(!context.mounted) return;
+              Navigator.pop(context);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (BuildContext context) =>
+              //       HomePage()),
+              // );
             },
             trailing: Icon(Icons.arrow_right),
           ),
@@ -79,9 +83,7 @@ class HamburgerMenu extends StatelessWidget {
             title: Text("로그아웃"),
             onTap: () {
               hamburgerViewModel.logout();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen())
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false
               );
             },
             trailing: Icon(Icons.arrow_right),

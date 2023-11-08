@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<AnimatedListState> _animListKey =
-  GlobalKey<AnimatedListState>();
+      GlobalKey<AnimatedListState>();
   final ScrollController _scrollController = ScrollController();
 
   final messageController = TextEditingController();
@@ -83,43 +83,43 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               StreamBuilder(
-                  stream: chatViewModel.chatRoomController.stream,
-                  builder: (context, snapshot) {
-                    return Expanded(
-                      child: ListView.builder(
-                          controller: _scrollController,
-                          itemCount:
+                stream: chatViewModel.chatRoomController.stream,
+                builder: (context, snapshot) {
+                  return Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount:
                           // chatViewModel.selectedChatRoom.contextUser.length * 2,
                           snapshot.data!.contextUser.length*2,
-                          itemBuilder: (BuildContext context, index) {
-                            final contextIdx = index ~/ 2;
-                            if (snapshot.hasError){
-                              return Text("데이터 오류");
-                            }
-                            if (snapshot.connectionState == ConnectionState.waiting){
-                              return Text("응답을 받아오는 중입니다");
-                            }
-                            // if(chatViewModel.selectedChatRoom.contextUser[contextIdx]! == null) {
-                            //   return ChatMessage("응답을 받아오는 중입니다.", false);
-                            // }
-                            if (index % 2 == 0) {
-                              // return ChatMessage(chatViewModel.selectedChatRoom.contextUser[contextIdx]['question'], true);
-                              return ChatMessage(snapshot.data!.contextUser[contextIdx]['question'], true);
+                      itemBuilder: (BuildContext context, index) {
+                        final contextIdx = index ~/ 2;
+                        if (snapshot.hasError){
+                          return Text("데이터 오류");
+                        }
+                        if (snapshot.connectionState == ConnectionState.waiting){
+                          return Text("응답을 받아오는 중입니다");
+                        }
+                        // if(chatViewModel.selectedChatRoom.contextUser[contextIdx]! == null) {
+                        //   return ChatMessage("응답을 받아오는 중입니다.", false);
+                        // }
+                        if (index % 2 == 0) {
+                          // return ChatMessage(chatViewModel.selectedChatRoom.contextUser[contextIdx]['question'], true);
+                          return ChatMessage(snapshot.data!.contextUser[contextIdx]['question'], true);
 
-                            } else if (index % 2 == 1) {
+                        } else if (index % 2 == 1) {
 
-                              return ChatMessage(snapshot.data!.contextUser[contextIdx]['answer'], false);
-                            }
-                          }
+                          return ChatMessage(snapshot.data!.contextUser[contextIdx]['answer'], false);
+                        }
+                      }
 
-                        // child: AnimatedList(
-                        //   key: _animListKey,
-                        //   reverse: true,
-                        //   itemBuilder: _buildItem,
-                        // ),
-                      ),
-                    );
-                  }
+                      // child: AnimatedList(
+                      //   key: _animListKey,
+                      //   reverse: true,
+                      //   itemBuilder: _buildItem,
+                      // ),
+                    ),
+                  );
+                }
               ),
               Divider(
                 height: 5,
@@ -148,7 +148,16 @@ class _HomePageState extends State<HomePage> {
                       //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
+                    onPressed: () {
+                      if (messageController.text.isEmpty) {
+                        print("메세지를 입력하세요.");
+                      } else {
+                        _handleSubmitted(messageController.text, context);
+                        messageController.clear();
+                      }
+                    },
                   ),
+
                   trailing: IconButton(
                     icon: Icon(
                       Icons.send,
@@ -180,7 +189,8 @@ class _HomePageState extends State<HomePage> {
     Logger().d(text);
 
     ChatViewModel chatViewModel =
-    Provider.of<ChatViewModel>(context, listen: false);
+        Provider.of<ChatViewModel>(context, listen: false);
+
     // messageController.clear();
     // _chats.insert(0,text); // 유저 context의 question 집합들
     await chatViewModel.sendMessage(

@@ -24,7 +24,7 @@ class PastDialog extends StatelessWidget {
         Icons.content_paste_go,
         color: Colors.grey[850],
       ),
-      onExpansionChanged: (bool expanded)  { // 드랍다운 아이콘 눌렀을 때
+      onExpansionChanged: (bool expanded) { // 드랍다운 아이콘 눌렀을 때
         if (expanded) {
           hamburgerViewModel.pastChatList(loginViewModel.user); // 채팅 리스트 가져오기
         }
@@ -37,13 +37,21 @@ class PastDialog extends StatelessWidget {
                 index--) // 최근 채팅방을 위쪽에 표시하기 위해 역으로 순환
               ListTile(
                 title: Text(hamburgerViewModel.chatList[index].chatTitle),
+                selected: hamburgerViewModel.selectedId == hamburgerViewModel.chatList[index].objectId, // 채팅방 id로 selected된 채팅방 확인
+                selectedColor: Colors.lightBlueAccent,
+                onTap: () async {
+                  if(hamburgerViewModel.selectedId != hamburgerViewModel.chatList[index].objectId){ // 현재 선택된 채팅방을 다시 클릭 시 아무 이벤트 없게하기
+                    await chatViewModel.requestChatRoomInfo(chatRoomId: hamburgerViewModel.chatList[index].objectId);
 
-                onTap: (){
-                  chatViewModel.requestChatRoomInfo(chatRoomId: hamburgerViewModel.chatList[index].objectId);
+                    hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id);
 
-                  Navigator.pushReplacement(
-                      context,MaterialPageRoute(
-                      builder: (_)=>HomePage()));
+                    if(!context.mounted) return;
+                    Navigator.pop(context);
+
+                    // Navigator.pushReplacement(
+                    //     context,MaterialPageRoute(
+                    //     builder: (_)=>HomePage()));
+                  }
 
                 }, // 눌렀을 때 수행할 동작
                 trailing: Row(
@@ -120,13 +128,43 @@ class PastDialog extends StatelessWidget {
                                 TextButton(
                                   child: Text("삭제"),
                                   onPressed: () async {
-                                    await hamburgerViewModel.deleteChatRoom( // 채팅방 Id를 보내서 삭제하기
-                                        hamburgerViewModel.chatList[index].objectId);
 
-                                    await hamburgerViewModel.pastChatList(loginViewModel.user); // 채팅 다시 조회하기
+                                    if(hamburgerViewModel.chatList.length <= 1){ // 채팅방이 1개일 때는 삭제 못 하게 하기
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context){
+                                          return AlertDialog(
+                                            title: Text("삭제 불가"),
+                                            content: Text("채팅방은 한 개 이상 가지고 있어야 합니다."),
+                                            actions: <Widget>[
+                                              ElevatedButton(
+                                                  onPressed: (){
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("확인"))
+                                            ],
+                                          );
+                                        }
+                                      );
+                                    }else{
+                                      String willDeleteId = hamburgerViewModel.chatList[index].objectId;
+                                      await hamburgerViewModel.deleteChatRoom( // 채팅방 Id를 보내서 삭제하기
+                                          willDeleteId);
 
-                                    if(!context.mounted) return;
-                                    Navigator.pop(context, ); // 팝업창 이전 화면으로 돌아가기
+                                      await hamburgerViewModel.pastChatList(loginViewModel.user); // 채팅 다시 조회하기
+
+                                      if(willDeleteId == hamburgerViewModel.selectedId){ // 현재 채팅방을 삭제한다면 마지막 채팅방으로 바꾸고, 표시시키기
+
+                                        chatViewModel.requestChatRoomInfo(chatRoomId: hamburgerViewModel.chatList[hamburgerViewModel.chatList.length-1].objectId);
+                                        hamburgerViewModel.selectChatId(hamburgerViewModel.chatList[hamburgerViewModel.chatList.length-1].objectId);
+                                      }
+
+                                      if(!context.mounted) return;
+                                      Navigator.pop(context, ); // 팝업창 이전 화면으로 돌아가기
+                                      Navigator.pop(context);
+                                    }
+
                                   },
                                 )
                               ],

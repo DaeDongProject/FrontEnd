@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import '../model/login.dart';
 import '../model/sign_up.dart';
 import '../model/user.dart';
@@ -13,7 +14,13 @@ class LoginViewModel with ChangeNotifier{
 
   bool loginValidator = false; // 위 두 개를 검사해서 이 변수로 로그인 버튼 활성화.
 
-  late User user = User(id: "notyetinitial", name: "초기화", phoneNumber: "", schoolEmail: "없음", password: "", schoolName: "", pushAlarm: false, personalInformation: false, chatRoomOid: []); // 객체 초기화
+  String userPassword = ""; // 회원 탈퇴를 위해 들고 있을 비밀번호 변수
+  bringPassword(String password){
+    userPassword = password;
+
+  }
+
+  late User user = User(id: "notyetinitial", name: "초기화", phoneNumber: "01012345678", schoolEmail: "init@suwon.ac.kr", password: "1111", schoolName: "수원대", pushAlarm: false, personalInformation: false, chatRoomOid: []); // 객체 초기화
 
   // 이메일의 형식이 유효한지 검사하는 함수
   bool isEmailValid(String email){
@@ -63,10 +70,13 @@ class LoginViewModel with ChangeNotifier{
     notifyListeners();
   }
 
-  bool emailChecking = false; // 중복된 이메일인지 확인하는 변수
+  bool emailChecking = true; // 중복된 이메일인지 확인하는 변수
   // 회원가입 시 이메일 중복 확인 함수
   Future checkDuplicatedEmail(String email) async {
+    emailChecking = true;
     emailChecking = await _repository.checkDuplicatedEmail(email); // 중복이라면 false, 아니라면 true 할당
+
+    Logger().d("로그인뷰모델 이메일체크 $emailChecking");
 
     notifyListeners();
   }

@@ -25,55 +25,56 @@ class ChatMessage extends StatelessWidget {
       //   child: SizeTransition(
       //     // sizeFactor: animation,
       //     axisAlignment: -1.0,
-      child: Row(
-        mainAxisAlignment: isMe ?  MainAxisAlignment.end : MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width:  16,
-          ),
-          Flexible(
-              child: Column(
-                crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                children: [
-                  Text(isMe ? "나" : "대동이", style: TextStyle(fontWeight: FontWeight.bold),),
-                  // for (String message in messages)
-                  Container(
-                    child: Text(message,style: TextStyle(color: isMe ? Colors.white : Colors.black, fontWeight: FontWeight.w500),),
-                    padding: EdgeInsets.all(7.0),
-                    decoration: BoxDecoration(
-                        color: isMe ? Colors.lightBlueAccent : Colors.grey.shade400,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                          bottomRight: isMe ? Radius.circular(0) : Radius.circular(12),
-                          bottomLeft: isMe ? Radius.circular(12) : Radius.circular(0),
+
+          child: Row(
+            mainAxisAlignment: isMe ?  MainAxisAlignment.end : MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width:  16,
+              ),
+              Flexible(
+                  child: Column(
+                    crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                    children: [
+                      Text(isMe ? "나" : "대동이", style: TextStyle(fontWeight: FontWeight.bold),),
+                      // for (String message in messages)
+                      Container(
+                        child: Text(message,style: TextStyle(color: isMe ? Colors.white : Colors.black, fontWeight: FontWeight.w500),),
+                        padding: EdgeInsets.all(7.0),
+                        decoration: BoxDecoration(
+                          color: isMe ? Colors.lightBlueAccent : Colors.grey.shade400,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                            bottomRight: isMe ? Radius.circular(0) : Radius.circular(12),
+                            bottomLeft: isMe ? Radius.circular(12) : Radius.circular(0),
+                          ),
+                          border : Border.all(color: isMe ? Colors.lightBlueAccent : Colors.grey.shade200,)
                         ),
-                        border : Border.all(color: isMe ? Colors.lightBlueAccent : Colors.grey.shade200,)
-                    ),
-                  ),
-                  // if (message.isNotEmpty)
-                  //   // 답변이 비어 있지 않은 경우에만 표시
-                  //   Container(
-                  //     child: Text(message, style: TextStyle(color: isMe ? Colors.white : Colors.black, fontWeight: FontWeight.w500),),
-                  //     padding: EdgeInsets.all(7.0),
-                  //     decoration: BoxDecoration(
-                  //       color: isMe ? Colors.lightBlueAccent : Colors.grey.shade400,
-                  //       borderRadius: BorderRadius.only(
-                  //         topLeft: Radius.circular(12),
-                  //         topRight: Radius.circular(12),
-                  //         bottomRight: isMe ? Radius.circular(0) : Radius.circular(12),
-                  //         bottomLeft: isMe ? Radius.circular(12) : Radius.circular(0),
-                  //       ),
-                  //       border: Border.all(color: isMe ? Colors.lightBlueAccent : Colors.grey.shade200,),
-                  //     ),
-                  //   ),
-                ],
-              )
+                      ),
+                      // if (message.isNotEmpty)
+                      //   // 답변이 비어 있지 않은 경우에만 표시
+                      //   Container(
+                      //     child: Text(message, style: TextStyle(color: isMe ? Colors.white : Colors.black, fontWeight: FontWeight.w500),),
+                      //     padding: EdgeInsets.all(7.0),
+                      //     decoration: BoxDecoration(
+                      //       color: isMe ? Colors.lightBlueAccent : Colors.grey.shade400,
+                      //       borderRadius: BorderRadius.only(
+                      //         topLeft: Radius.circular(12),
+                      //         topRight: Radius.circular(12),
+                      //         bottomRight: isMe ? Radius.circular(0) : Radius.circular(12),
+                      //         bottomLeft: isMe ? Radius.circular(12) : Radius.circular(0),
+                      //       ),
+                      //       border: Border.all(color: isMe ? Colors.lightBlueAccent : Colors.grey.shade200,),
+                      //     ),
+                      //   ),
+                    ],
+                  )
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-    // ),
+        );
+      // ),
     // );
   }
 }
