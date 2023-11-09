@@ -1,4 +1,5 @@
 import 'package:daedong3/personal_information.dart';
+import 'package:daedong3/view/hamburger/faq.dart';
 import 'package:daedong3/view/home_page.dart';
 import 'package:daedong3/view/hamburger/past_dialog.dart';
 import 'package:daedong3/view/hamburger/privacy_update.dart';
@@ -59,6 +60,7 @@ class HamburgerMenu extends StatelessWidget {
             ),
             title: Text("New Chat"),
             onTap: () async {
+              chatViewModel.clearChatData();
               await hamburgerViewModel.createChatRoom(context, loginViewModel.user); // 새 채팅방 생성
               await chatViewModel.requestChatRoomInfo(chatRoomId: loginViewModel.user.chatRoomOid.last); // 새로 생성된 채팅방으로 채팅방 설정
 
@@ -75,6 +77,16 @@ class HamburgerMenu extends StatelessWidget {
             trailing: Icon(Icons.arrow_right),
           ),
           PastDialog(), // 이전 채팅 목록 불러오기
+          ListTile( // FAQ 창 띄우기
+            leading: Icon(
+              Icons.question_answer_rounded,
+              color: Colors.grey[850],
+            ),
+            title: Text("자주 묻는 질문"),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Faq()));
+            },
+          ),
           ListTile(
             leading: Icon(
               Icons.exit_to_app,

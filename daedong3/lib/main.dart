@@ -26,6 +26,10 @@ class MyApp extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
+
+    HamburgerViewModel hamburgerViewModel = Provider.of<HamburgerViewModel>(context);
+    hamburgerViewModel.fetchFaqData();
+
     FlutterNativeSplash.remove();
     return MaterialApp(
         theme: ThemeData(

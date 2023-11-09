@@ -41,6 +41,7 @@ class PastDialog extends StatelessWidget {
                 selectedColor: Colors.lightBlueAccent,
                 onTap: () async {
                   if(hamburgerViewModel.selectedId != hamburgerViewModel.chatList[index].objectId){ // 현재 선택된 채팅방을 다시 클릭 시 아무 이벤트 없게하기
+                    chatViewModel.clearChatData();
                     await chatViewModel.requestChatRoomInfo(chatRoomId: hamburgerViewModel.chatList[index].objectId);
 
                     hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id);
@@ -155,7 +156,7 @@ class PastDialog extends StatelessWidget {
                                       await hamburgerViewModel.pastChatList(loginViewModel.user); // 채팅 다시 조회하기
 
                                       if(willDeleteId == hamburgerViewModel.selectedId){ // 현재 채팅방을 삭제한다면 마지막 채팅방으로 바꾸고, 표시시키기
-
+                                        chatViewModel.clearChatData();
                                         chatViewModel.requestChatRoomInfo(chatRoomId: hamburgerViewModel.chatList[hamburgerViewModel.chatList.length-1].objectId);
                                         hamburgerViewModel.selectChatId(hamburgerViewModel.chatList[hamburgerViewModel.chatList.length-1].objectId);
                                       }

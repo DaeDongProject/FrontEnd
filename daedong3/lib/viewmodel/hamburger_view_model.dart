@@ -1,3 +1,4 @@
+import 'package:daedong3/model/faq.dart';
 import 'package:daedong3/model/login.dart';
 import 'package:daedong3/viewmodel/chat_view_model.dart';
 import 'package:daedong3/viewmodel/login_view_model.dart';
@@ -93,6 +94,8 @@ class HamburgerViewModel with ChangeNotifier {
   // 로그아웃 요청 함수
   Future logout() async {
     await _repository.logout();
+
+    chatViewModel.clearChatData();
   }
 
   bool isEditName = true;
@@ -138,5 +141,11 @@ class HamburgerViewModel with ChangeNotifier {
     await _repository.deleteUser(user);
 
     notifyListeners();
+  }
+
+  late List<Faq> faqDataList;
+
+  Future fetchFaqData() async {
+    faqDataList = await _repository.fetchFaq();
   }
 }

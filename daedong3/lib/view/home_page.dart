@@ -22,6 +22,8 @@ class _HomePageState extends State<HomePage> {
 
   final messageController = TextEditingController();
 
+  bool isWaitingForResponse = false; // 답변을 기다리는 중이라면 true를 반환하는 변수
+
   List<String> question = [];
 
   List<String> answer = [];
@@ -50,14 +52,16 @@ class _HomePageState extends State<HomePage> {
     }
 
     SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      if(_scrollController.hasClients){
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
     });
 
     ChatViewModel chatViewModel = Provider.of<ChatViewModel>(context);
 
     Logger().d(chatViewModel.selectedChatRoom.chatTitle);
 
-    int contextIdx = 0;
+    int idxWaitRes = 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -83,32 +87,43 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               StreamBuilder(
-                stream: chatViewModel.chatRoomController.stream,
+                stream: chatViewModel.chatDataController.stream,
                 builder: (context, snapshot) {
+                  if (snapshot.hasError){
+                    return Text("데이터 오류");
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("응답을 받아오는 중입니다");
+                  }
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+                  });
                   return Expanded(
                     child: ListView.builder(
                       controller: _scrollController,
                       itemCount:
                           // chatViewModel.selectedChatRoom.contextUser.length * 2,
-                          snapshot.data!.contextUser.length*2,
+                          snapshot.data!.length.isEven ? // 답변이 없다면 '적절한 응답 찾는 중' 텍스트를 위해 길이+1 함
+                          snapshot.data!.length : snapshot.data!.length+1,
                       itemBuilder: (BuildContext context, index) {
-                        final contextIdx = index ~/ 2;
-                        if (snapshot.hasError){
-                          return Text("데이터 오류");
-                        }
-                        if (snapshot.connectionState == ConnectionState.waiting){
-                          return Text("응답을 받아오는 중입니다");
-                        }
-                        // if(chatViewModel.selectedChatRoom.contextUser[contextIdx]! == null) {
-                        //   return ChatMessage("응답을 받아오는 중입니다.", false);
-                        // }
-                        if (index % 2 == 0) {
-                          // return ChatMessage(chatViewModel.selectedChatRoom.contextUser[contextIdx]['question'], true);
-                          return ChatMessage(snapshot.data!.contextUser[contextIdx]['question'], true);
-
-                        } else if (index % 2 == 1) {
-
-                          return ChatMessage(snapshot.data!.contextUser[contextIdx]['answer'], false);
+                        idxWaitRes = index+1;
+                        if (index.isEven) {
+                            // return ChatMessage(chatViewModel.selectedChatRoom.contextUser[contextIdx]['question'], true);
+                          return ChatMessage(snapshot.data![index], true);
+                        } else {
+                          if(isWaitingForResponse && index == snapshot.data!.length){
+                            // return ChatMessage("Chat GPT한테 적절한 응답을 찾는 중이에요", false);
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(width: 35,),
+                                CircularProgressIndicator(),
+                                SizedBox(width: 16,),
+                                Text(" 적절한 응답을 찾는 중이야"),
+                              ],
+                            );
+                          }
+                          return ChatMessage(snapshot.data![index], false);
                         }
                       }
 
@@ -133,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         color: Color.fromRGBO(220, 220, 220, 1)),
                     padding: EdgeInsets.only(left: 15),
-                    child: TextFormField(
+                    child: TextField(
                       maxLines: null,
                       controller: messageController,
                       decoration: InputDecoration(
@@ -147,6 +162,16 @@ class _HomePageState extends State<HomePage> {
                       ),
                       //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
                       style: TextStyle(fontSize: 16, color: Colors.black),
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (value){
+                        if (value.trim().isEmpty) {
+                          print("메세지를 입력하세요.");
+                        } else {
+                          _handleSubmitted(value, context);
+                          chatViewModel.addChatData(value);
+                          messageController.clear();
+                        }
+                      },
                     ),
                   ),
                   trailing: IconButton(
@@ -160,6 +185,7 @@ class _HomePageState extends State<HomePage> {
                         print("메세지를 입력하세요.");
                       } else {
                         _handleSubmitted(messageController.text, context);
+                        chatViewModel.addChatData(messageController.text);
                         messageController.clear();
                       }
                     },
@@ -179,6 +205,8 @@ class _HomePageState extends State<HomePage> {
     // 메시지 제출 함수
     Logger().d(text);
 
+    isWaitingForResponse = true;
+
     ChatViewModel chatViewModel =
         Provider.of<ChatViewModel>(context, listen: false);
     // messageController.clear();
@@ -186,7 +214,7 @@ class _HomePageState extends State<HomePage> {
     await chatViewModel.sendMessage(
         chatViewModel.selectedChatRoom.id, text);
 
-    await chatViewModel.requestChatRoomInfo(chatRoomId: chatViewModel.selectedChatRoom.id);
+    isWaitingForResponse = false;
 
     // // if (chatViewModel.requestMessage != null && chatViewModel.responseMessage != "") {
     // ChatItem newItem =
