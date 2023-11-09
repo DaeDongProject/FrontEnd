@@ -24,22 +24,20 @@ class ChatViewModel with ChangeNotifier{
 
     delayMessage = false;
 
-    ChatRoom reqChatRoom = selectedChatRoom;
-    reqChatRoom.contextUser.add(Context(question: request, answer: "", isDialogflow: false, modifyRequest: false, modifyText: ""));
-    chatRoomController.add(reqChatRoom);
-
     Question question = Question(id: id, question: request); // 매개변수 받아서 Question 객체화
 
     responseMessage = await _repository.answerQuestion(question); // API 응답 받아서 responseMessage에 할당
 
-    requestChatRoomInfo(chatRoomId: selectedChatRoom.id);
+    addChatData(responseMessage);
+    chatDataController.add(chatData);
+
 
     notifyListeners();
 
     // return responseMessage;
   }
 
-  final StreamController<ChatRoom> chatRoomController = BehaviorSubject<ChatRoom>(); // Error : Stream has already been listened to 에 대한 해결책 BehaviorSubject를 인스턴스화시킴
+  final StreamController<List<String>> chatDataController = BehaviorSubject<List<String>>(); // Error : Stream has already been listened to 에 대한 해결책 BehaviorSubject를 인스턴스화시킴
 
   late ChatRoom selectedChatRoom = ChatRoom(id: "초기화채팅방", userId: "", deleteYn: false, contextUser: [], chatTitle: ""); // 초기화/ User가 현재 선택한, 사용 중인 채팅방(채팅 목록에서 선택 중인 채팅방 아님)
 
@@ -55,14 +53,33 @@ class ChatViewModel with ChangeNotifier{
       return selectedChatRoom;
     }
 
-    // _chatRoomController.sink.add(newChatRoom);
     selectedChatRoom = newChatRoom;
 
-    notifyListeners();
+    setChatData();
 
-    chatRoomController.add(selectedChatRoom);
+    notifyListeners();
 
     return selectedChatRoom;
   }
 
+  List<String> chatData = [];
+
+  setChatData(){
+    for(int i=0; i<selectedChatRoom.contextUser.length; i++){
+      chatData.add(selectedChatRoom.contextUser[i]['question']);
+      chatData.add(selectedChatRoom.contextUser[i]['answer']);
+    }
+
+    chatDataController.add(chatData);
+  }
+
+  addChatData(String text){
+    chatData.add(text);
+
+    chatDataController.add(chatData);
+  }
+
+  clearChatData(){
+    chatData.clear();
+  }
 }

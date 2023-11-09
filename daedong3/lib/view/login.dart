@@ -53,6 +53,72 @@ class LoginScreen extends StatelessWidget{
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
               ),
+              textInputAction: TextInputAction.search,
+              onSubmitted: (value) async { // 아이디 Field에서 Enter Key event 위해서 property 등록
+                if(loginViewModel.isEmailValid(emailController.text)){ // 형식이 올바를 때
+
+                  print("로그인 형식 맞았음\n");
+
+                  // 로그인 실패 시 AlertDialog 띄우기 구현 필요
+                  try{
+                    await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
+
+                    // 로그인 성공 시
+                    await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
+                    hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id); // pastDialog에서 표시할 최근 선택방 선택시키기
+
+                    Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
+
+                    loginViewModel.bringPassword(passwordController.text);
+                    if(!context.mounted) return; // 비동기 처리 후 navigator 쌓을 때 위젯이 안 쌓이는 것을 방지
+
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_)=>
+                        HomePage()));
+                  }catch(e){
+                    if(!context.mounted) return;
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("로그인 실패"),
+                          content: Text(e.toString().replaceAll("Exception: ", "")), // 실패 이유를 표시
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("확인"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+
+
+                }else{
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context){
+                        return AlertDialog( // 이메일의 형식이 틀렸을 때 실패 팝업 띄우기
+                          title: Text("로그인 실패!"),
+                          content: Text("이메일 형식이 아닙니다."),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              child: Text("확인"),
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                            )
+                          ],
+                        );
+                      }
+                  );
+                  print("로그인 형식 틀렸음");
+
+                }
+              },
             ),
             SizedBox(height: 12.0,),
 
@@ -74,6 +140,72 @@ class LoginScreen extends StatelessWidget{
                 ),
               ),
               obscureText: true,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (value) async { // 비밀번호 Field에서 Enter Key event 위해서 property 등록
+                if(loginViewModel.isEmailValid(emailController.text)){ // 형식이 올바를 때
+
+                  print("로그인 형식 맞았음\n");
+
+                  // 로그인 실패 시 AlertDialog 띄우기 구현 필요
+                  try{
+                    await loginViewModel.loginFunc(emailController.text, passwordController.text); // 로그인 요청 보내기
+
+                    // 로그인 성공 시
+                    await chatViewModel.requestChatRoomInfo(userId: loginViewModel.user.id); // 입장 시 띄울 채팅방 선택
+                    hamburgerViewModel.selectChatId(chatViewModel.selectedChatRoom.id); // pastDialog에서 표시할 최근 선택방 선택시키기
+
+                    Logger().d("로그인 유저 이름 = ${loginViewModel.user.name}");
+
+                    loginViewModel.bringPassword(passwordController.text);
+                    if(!context.mounted) return; // 비동기 처리 후 navigator 쌓을 때 위젯이 안 쌓이는 것을 방지
+
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_)=>
+                        HomePage()));
+                  }catch(e){
+                    if(!context.mounted) return;
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("로그인 실패"),
+                          content: Text(e.toString().replaceAll("Exception: ", "")), // 실패 이유를 표시
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("확인"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+
+
+                }else{
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context){
+                        return AlertDialog( // 이메일의 형식이 틀렸을 때 실패 팝업 띄우기
+                          title: Text("로그인 실패!"),
+                          content: Text("이메일 형식이 아닙니다."),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              child: Text("확인"),
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                            )
+                          ],
+                        );
+                      }
+                  );
+                  print("로그인 형식 틀렸음");
+
+                }
+              },
             ),
 
             SizedBox(height: 12.0,),
@@ -81,7 +213,7 @@ class LoginScreen extends StatelessWidget{
             ButtonBar(
               children: <Widget>[
                 TextButton(
-                  onPressed: (){
+                  onPressed: (){ // 로그인 버튼 직접 클릭 시 event
                     Navigator.push(
                         context, MaterialPageRoute(builder: (_)=>
                         Join()));
