@@ -1,20 +1,22 @@
 import 'package:daedong3/model/faq_data.dart';
 
-class Faq{
+class FaqItem{
   String id;
   String topic;
   String subTopic;
-  List<FaqData> faq;
+  List<dynamic> faq; // List의 데이터 타입은 FaqData
+  bool isExpanded;
 
-  Faq({
+  FaqItem({
     required this.id,
     required this.topic,
     required this.subTopic,
-    required this.faq
+    required this.faq,
+    this.isExpanded = false,
   });
 
-  factory Faq.fromJson(Map<String, dynamic> json){
-    return Faq(
+  factory FaqItem.fromJson(Map<String, dynamic> json){
+    return FaqItem(
       id: json["id"],
       topic: json["topic"],
       subTopic: json["subTopic"],

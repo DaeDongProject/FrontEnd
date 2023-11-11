@@ -1,6 +1,8 @@
 import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:daedong3/model/faq_item.dart';
 
 class Faq extends StatefulWidget {
   const Faq({Key? key}) : super(key: key);
@@ -15,7 +17,6 @@ class _FaqState extends State<Faq> {
     HamburgerViewModel hamburgerViewModel =
         Provider.of<HamburgerViewModel>(context);
 
-    Faq selectedFaq = hamburgerViewModel.faqDataList;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,23 +30,62 @@ class _FaqState extends State<Faq> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          DropdownButton<String>(
-              value: selectedCategory,
-              items: hamburgerViewModel.faqDataList.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value.topic,
-                  child: Text(value.topic),
-                );
-              }),
-              onChanged: (String? newValue){
-                setState(() {
-                  selectedCategory = newValue!;
-                });
-              }
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 8,),
+            DropdownButton<FaqItem>(
+                value: hamburgerViewModel.selectedFaq,
+                items: hamburgerViewModel.faqDataList.map<DropdownMenuItem<FaqItem>>((FaqItem faqItem) {
+                  return DropdownMenuItem<FaqItem>(
+                    value: faqItem,
+                    child: Text(faqItem.topic),
+                  );
+                }).toList(),
+                onChanged: (value){
+                  setState(() {
+                    hamburgerViewModel.selectedFaq = value!;
+                    hamburgerViewModel.faqExpandedList = List.generate(hamburgerViewModel.selectedFaq.faq.length, (index) => false);
+                  });
+                }
+            ),
+            SizedBox(height: 10,),
+            Column(
+              children: [
+                ExpansionPanelList(
+                  elevation: 1,
+                  expandedHeaderPadding: EdgeInsets.all(0),
+                  expansionCallback: (int index, bool isExpanded){
+                    // ExpansionPanelList 펼침/닫힘 로직 구현
+                    setState(() {
+                      hamburgerViewModel.faqExpandedList[index] = isExpanded;
+                    });
+
+                  },
+                  children: hamburgerViewModel.selectedFaq.faq.asMap().entries.map((entry) {
+                    final int index = entry.key;
+                    final Map<String, dynamic> faqItem = entry.value;
+
+                    return ExpansionPanel(
+                      canTapOnHeader: true,
+                      headerBuilder: (BuildContext context, bool isExpanded){
+                        return ListTile(
+                          title: Text(faqItem['faqTitle']),
+                        );
+                      },
+                      isExpanded: hamburgerViewModel.faqExpandedList[index],
+                      body: ListTile(
+                        title: Text(faqItem['faqAnswer']),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ]
+
+              ),
+
+          ],
+        ),
       ),
     );
   }
