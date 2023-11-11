@@ -83,9 +83,16 @@ class HamburgerMenu extends StatelessWidget {
               color: Colors.grey[850],
             ),
             title: Text("자주 묻는 질문"),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Faq()));
+            onTap: () async {
+              await hamburgerViewModel.fetchFaqData();
+              hamburgerViewModel.setSelectedFaq(hamburgerViewModel.faqDataList[0]);
+              hamburgerViewModel.faqExpandedList = List.generate(hamburgerViewModel.selectedFaq.faq.length, (index) => false);
+
+              if(!context.mounted) return;
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context) => Faq()));
             },
+            trailing: Icon(Icons.arrow_right),
           ),
           ListTile(
             leading: Icon(

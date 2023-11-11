@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:daedong3/model/faq.dart';
+import 'package:daedong3/model/faq_item.dart';
 import 'package:daedong3/model/info_modify_request.dart';
 import 'package:logger/logger.dart';
 import '../model/chat_room.dart';
@@ -135,13 +135,23 @@ class Repository {
   }
 
   // 자주 묻는 질문
-  Future<List<Faq>> fetchFaq() async {
+  Future<List<FaqItem>> fetchFaq() async {
     try {
       final response = await http.get(
         Uri.parse('http://13.209.50.197:8080/daedong/menu/faq'),
       );
-        dynamic faqData = jsonDecode(utf8.decode(response.bodyBytes));
-        return (faqData as List).map((e) => Faq.fromJson(e)).toList();
+      if(response.statusCode == 200){
+        List<dynamic> jsonDataList = jsonDecode(utf8.decode(response.bodyBytes));
+
+        List<FaqItem> faqResult = jsonDataList.map((jsonData) {
+          return FaqItem.fromJson(jsonData);
+        }).toList();
+
+        return faqResult;
+      }else {
+        throw Exception('Failed to load faq data');
+      }
+
     } catch (e) {
       throw Exception('Error: $e');
     }

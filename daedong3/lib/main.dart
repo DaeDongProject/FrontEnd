@@ -5,6 +5,7 @@ import 'package:daedong3/viewmodel/hamburger_view_model.dart';
 import 'package:daedong3/viewmodel/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:daedong3/view/home_page.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'personal_information.dart';
@@ -27,8 +28,7 @@ class MyApp extends StatelessWidget {
 
   Widget build(BuildContext context) {
 
-    HamburgerViewModel hamburgerViewModel = Provider.of<HamburgerViewModel>(context);
-    hamburgerViewModel.fetchFaqData();
+
 
     FlutterNativeSplash.remove();
     return MaterialApp(

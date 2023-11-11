@@ -1,4 +1,5 @@
-import 'package:daedong3/model/faq.dart';
+import 'package:daedong3/model/faq_item.dart';
+import 'package:daedong3/model/faq_data.dart';
 import 'package:daedong3/model/login.dart';
 import 'package:daedong3/viewmodel/chat_view_model.dart';
 import 'package:daedong3/viewmodel/login_view_model.dart';
@@ -143,9 +144,21 @@ class HamburgerViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  late List<Faq> faqDataList;
+  List<FaqItem> faqDataList = [];
 
   Future fetchFaqData() async {
     faqDataList = await _repository.fetchFaq();
+
+    notifyListeners();
   }
+
+  late FaqItem selectedFaq;
+
+  setSelectedFaq(FaqItem newValue){
+    selectedFaq = newValue;
+
+    notifyListeners();
+  }
+
+  List<bool> faqExpandedList = [];
 }
