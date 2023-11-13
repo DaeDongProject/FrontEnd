@@ -63,7 +63,7 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                     width: 8,
                   ),
                   Text(
-                    "이름",
+                    "이름      ",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -114,7 +114,7 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                     width: 8,
                   ),
                   Text(
-                    "이메일",
+                    "이메일   ",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -232,7 +232,7 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                     width: 8,
                   ),
                   Text(
-                    "비밀번호 재확인",
+                    "비밀번호\n 재확인",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -265,6 +265,7 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                         }
                         return null;
                       },
+                     // textAlign: TextAlign.left,
                     ),
                   ),
                   SizedBox(
@@ -342,7 +343,7 @@ class _PrivacyUpdateState extends State<PrivacyUpdate> {
                     width: 8,
                   ),
                   Text(
-                    "대학교",
+                    "대학교    ",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

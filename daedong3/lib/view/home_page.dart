@@ -77,6 +77,19 @@ class _HomePageState extends State<HomePage> {
                 "Today, ${DateFormat("Hm").format(DateTime.now())}",
                 style: TextStyle(fontSize: 15),
               ),
+              Align(
+                alignment: Alignment(0.95,1),
+                child: FloatingActionButton.small(
+                  onPressed: () {
+                    showhelp(context);
+                  },
+                  child: Icon(Icons.question_mark, color: Colors.white,),
+                  backgroundColor: Colors.lightBlueAccent,
+                  shape: CircleBorder(),
+
+
+                ),
+              ),
               Center(
                 child: Container(
                   padding: EdgeInsets.only(top: 15, bottom: 10),
@@ -148,14 +161,7 @@ class _HomePageState extends State<HomePage> {
                       //onFieldSubmitted: _handleSunbmitted //모바일 어플리케이션에서의 키패트 전송버튼 활용
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
-                    onPressed: () {
-                      if (messageController.text.isEmpty) {
-                        print("메세지를 입력하세요.");
-                      } else {
-                        _handleSubmitted(messageController.text, context);
-                        messageController.clear();
-                      }
-                    },
+
                   ),
 
                   trailing: IconButton(
@@ -211,5 +217,46 @@ class _HomePageState extends State<HomePage> {
     //   curve: Curves.easeOut,
     // );
     // _animListKey.currentState?.insertItem(0);
+  }
+  void showhelp(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('대동이는요...?',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+            textAlign: TextAlign.center,),
+          content: Text('학교와 관련된 정보는 다음 항목들의 정보를 제공해주고 있어 !\n\n\n'
+              '* 학교소개\n'
+              '- 대중교통(버스)안내 / 상징동물 / 슬로건 / 건학이념 / 전화번호\n\n'
+              '* 대학생활\n'
+              '- 시설대관 / 장애학생 지원센터 / 주차등록 / 학생증발급 / 보건실 / 학군단 / 학생보험\n\n'
+              '* 학사/행정\n'
+              '- 등록 / 복학 / 수업 / 예비군 / 자퇴 / 장학 / 학자금대출 / 재입학 / 전과 / 제적 /\n'
+              '  졸업 / 편입학 / 학사일정 / 학적기재사항정정 / 학점포기 / 휴학\n\n'
+              '사용방법은 예를 들어 "장학 / 학자금대출"에 대한 정보를 알고 싶다면 채팅창에 "장학/학자금대출"이라고 입력하면 돼.\n\n'
+              '이 외의 질문에도 대답해줄 수 있어!', style: TextStyle(fontSize: 15),),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('대화하기',
+                    style: TextStyle(color: Colors.white, fontSize: 20),),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlueAccent,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(20)
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }
